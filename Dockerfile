@@ -3,30 +3,35 @@ FROM node:18-alpine
 # 必要なパッケージをインストール（ヘルスチェック用）
 RUN apk add --no-cache wget
 
-# nodeユーザーを作成・使用（セキュリティ向上）
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
-
+# 作業ディレクトリを設定
 WORKDIR /app
 
-# 依存関係のインストール（キャッシュ最適化）
+# 依存関係ファイルをコピー
 COPY package*.json ./
-RUN npm ci
+
+# ユーザー作成前に依存関係をインストール（rootで実行）
+RUN npm install
 
 # ソースコードとtsconfig
-COPY --chown=appuser:appgroup tsconfig.json ./
-COPY --chown=appuser:appgroup src ./src
+COPY tsconfig.json ./
+COPY src ./src
 
-# ビルド
+# プロジェクトをビルド
 RUN npm run build
 
 # 本番環境用の依存関係のみインストール
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
+
+# 非rootユーザーを作成
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # 必要なディレクトリの作成
-# 権限を持つユーザーに戻る必要があります
-USER root
-RUN mkdir -p config data && chown -R appuser:appgroup config data
+RUN mkdir -p config data
+
+# アプリケーションファイルの所有権を変更
+RUN chown -R appuser:appgroup /app
+
+# 非rootユーザーに切り替え
 USER appuser
 
 # ポートの公開

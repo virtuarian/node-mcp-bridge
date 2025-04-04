@@ -3,3 +3,5 @@ node_modules
 data/sessionsDb.json
 config/mcp-settings.json
 dist
+docker-compose.yml
+Dockerfile
