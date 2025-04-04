@@ -1,0 +1,1046 @@
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-light: #eef2ff;
+    --success: #10b981;
+    --success-hover: #059669;
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --warning: #f59e0b;
+    --warning-hover: #d97706;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--gray-800);
+    background-color: var(--gray-50);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+h1 {
+    color: var(--gray-900);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1rem 1.5rem;
+    background-color: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: var(--gray-50);
+}
+
+th,
+td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+th {
+    font-weight: 600;
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+tbody tr:hover {
+    background-color: var(--gray-50);
+}
+
+.server-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-connected {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-connecting {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-disconnected {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.status-connected .status-dot {
+    background-color: #059669;
+}
+
+.status-connecting .status-dot {
+    background-color: #d97706;
+}
+
+.status-disconnected .status-dot {
+    background-color: #dc2626;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-success {
+    background-color: var(--success);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: var(--success-hover);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-hover);
+}
+
+.btn-warning {
+    background-color: var(--warning);
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: var(--warning-hover);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--gray-300);
+    color: var(--gray-700);
+}
+
+.btn-outline:hover {
+    background-color: var(--gray-50);
+    border-color: var(--gray-400);
+}
+
+.btn-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--gray-300);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: var(--primary);
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px var(--primary);
+}
+
+input:checked+.slider:before {
+    transform: translateX(20px);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--gray-900);
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid var(--gray-300);
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
+}
+
+.form-col {
+    flex: 1 0 0%;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.alert-danger {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.alert-warning {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.alert-info {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 75%;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 9999px;
+}
+
+.badge-success {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.badge-danger {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge-warning {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.badge-info {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.25s, opacity 0.25s;
+}
+
+.modal-overlay.active {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 重要: 内部のスクロールを制御 */
+}
+
+.modal-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.modal-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.modal-close {
+    cursor: pointer;
+    color: var(--gray-500);
+    font-size: 1.5rem;
+    transition: color 0.15s ease;
+}
+
+.modal-close:hover {
+    color: var(--gray-700);
+}
+
+.modal-body {
+    padding: 16px;
+    flex-grow: 1;
+    overflow-y: auto; /* スクロール可能 */
+    max-height: calc(90vh - 130px); /* ヘッダとフッタの高さを引いた値 */
+}
+
+.modal-footer {
+    padding: 16px;
+    border-top: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    background: white;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+.error-message {
+    color: var(--danger);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.loading {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.envs-table {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.envs-table th,
+.envs-table td {
+    padding: 0.5rem;
+    border: 1px solid var(--gray-200);
+}
+
+.add-env-btn {
+    margin-bottom: 1rem;
+}
+
+/* 詳細モーダル用のスタイル */
+.server-info-section {
+    margin-bottom: 2rem;
+}
+
+.server-info-section h4 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-800);
+}
+
+.info-grid {
+    display: grid;
+    grid-gap: 0.5rem 1rem;
+}
+
+.info-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    margin-bottom: 0.5rem;
+}
+
+.info-label {
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.details-table th,
+.details-table td {
+    padding: 0.5rem;
+    text-align: left;
+    border: 1px solid var(--gray-200);
+}
+
+.details-table th {
+    background-color: var(--gray-50);
+    font-weight: 500;
+}
+
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 1rem;
+}
+
+.small-switch {
+    width: 32px;
+    height: 16px;
+}
+
+.small-switch .slider:before {
+    height: 12px;
+    width: 12px;
+    left: 2px;
+    bottom: 2px;
+}
+
+.small-switch input:checked+.slider:before {
+    transform: translateX(16px);
+}
+
+/* 既存のCSSコードに追加 */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.language-selector {
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--gray-300);
+    background-color: white;
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    cursor: pointer;
+}
+
+.language-selector:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* アイコンボタン */
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.btn-icon .material-icons {
+    font-size: 18px;
+}
+
+/* スクリーンリーダー用に視覚的に非表示にする */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* モバイルでボタングループのスペースを調整 */
+@media (max-width: 768px) {
+    .btn-group {
+        gap: 0.25rem;
+    }
+}
+
+/* アイコンによるツールバー */
+.action-toolbar {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+}
+
+/* ホバー時のツールチップ効果 */
+/* .btn-icon {
+    position: relative;
+  }
+  
+  .btn-icon:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: var(--gray-800);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+  } */
+
+/* アイコンボタン */
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.15s ease;
+}
+
+.btn-icon .material-icons {
+    font-size: 18px;
+}
+
+/* ラベル付きアイコンボタン */
+.btn .material-icons {
+    margin-right: 5px;
+    font-size: 16px;
+    vertical-align: text-bottom;
+}
+
+/* スクリーンリーダー用に視覚的に非表示にする */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* アクションツールバー */
+.action-toolbar {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+    justify-content: flex-end;
+}
+
+/* ホバー時のツールチップ効果 */
+/* .btn-icon[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: var(--gray-800);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+  } */
+
+/* 小さいアイコンボタン */
+.btn-sm.btn-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.btn-sm.btn-icon .material-icons {
+    font-size: 14px;
+}
+
+/* モーダルクローズボタンのスタイル調整 */
+.modal-close.btn-icon {
+    background: transparent;
+    border: none;
+    color: var(--gray-500);
+}
+
+.modal-close.btn-icon:hover {
+    color: var(--gray-700);
+    background-color: var(--gray-200);
+}
+
+.modal-close .material-icons {
+    font-size: 20px;
+}
+
+/* モバイルでのアクションボタン調整 */
+@media (max-width: 768px) {
+    .action-toolbar {
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    /* .btn-icon[title]:hover::after {
+      bottom: 50%;
+      left: 130%;
+      transform: translateY(50%);
+    } */
+}
+
+
+.tool-parameters {
+    width: 100%;
+}
+
+.toggle-params {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.toggle-params .material-icons {
+    font-size: 16px;
+}
+
+.parameters-details {
+    margin-top: 10px;
+    background-color: var(--gray-100);
+    border-radius: 4px;
+    padding: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.parameters-details.hidden {
+    display: none;
+}
+
+.params-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.params-table th,
+.params-table td {
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-300);
+}
+
+.params-table th {
+    background-color: var(--gray-200);
+    position: sticky;
+    top: 0;
+}
+
+.params-table code {
+    font-family: monospace;
+    background-color: var(--gray-200);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.params-table .required {
+    color: var(--red-600);
+    font-weight: 500;
+}
+
+/* ツールテーブルの調整 */
+.details-table th:nth-child(3) {
+    width: 30%;
+}
+
+
+/* ツールカードのグリッドレイアウト */
+.tools-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* ツールカードのスタイル */
+.tool-card {
+    width: 100%;
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    padding: 16px;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tool-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.tool-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0;
+}
+
+.tool-description-container {
+    flex-grow: 1;
+}
+
+.tool-description {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--primary);
+    padding: 0;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-text:hover {
+    color: var(--primary-hover);
+}
+
+.hidden {
+    display: none;
+}
+
+.tool-parameters {
+    margin-top: 8px;
+}
+
+.params-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.params-heading h5 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--gray-800);
+}
+
+.parameters-details {
+    margin-top: 12px;
+    background-color: var(--gray-50);
+    border-radius: 4px;
+    padding: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--gray-200);
+}
+
+.no-params {
+    color: var(--gray-500);
+    font-size: 13px;
+    font-style: italic;
+    margin: 0;
+}
+
+/* パラメータテーブルの調整 */
+.params-table {
+    width: 100%;
+    font-size: 13px;
+}
+
+.params-table th, 
+.params-table td {
+    padding: 6px 8px;
+    text-align: left;
+    font-size: 12px;
+}
+
+/* 長い説明文やコードのスタイル */
+.params-table td {
+    word-break: break-word;
+    max-width: 200px;
+}
+
+/* サーバー一覧のカード表示 */
+.servers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.server-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--gray-200);
+}
+
+.server-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.server-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--gray-900);
+}
+
+.server-card .server-status {
+    padding: 4px 8px;
+}
+
+.server-card-content {
+    padding: 16px;
+    flex-grow: 1;
+}
+
+.server-info-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.server-info-item {
+    display: flex;
+    align-items: center;
+}
+
+.server-info-item .info-label {
+    font-weight: 500;
+    min-width: 100px;
+    color: var(--gray-700);
+}
+
+.server-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 16px;
+    background-color: var(--gray-50);
+    border-top: 1px solid var(--gray-200);
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--gray-500);
+    font-style: italic;
+}
+
+.loading-container {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+}

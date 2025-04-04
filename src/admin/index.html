@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Bridge Admin</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/admin/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 data-i18n="app.title">MCP Bridge Admin</h1>
+            <div class="header-actions">
+                <select id="languageSelector" class="language-selector">
+                    <option value="en">English</option>
+                    <option value="ja">日本語</option>
+                    <option value="zh">中文</option>
+                </select>
+                <button id="addServerBtn" class="btn btn-primary" title="Add Server">
+                    <span class="material-icons">add</span>
+                    <span data-i18n="server.add">Add Server</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title" data-i18n="server.list">MCP Server List</h2>
+                <button id="refreshBtn" class="btn btn-outline" title="Refresh">
+                    <span class="material-icons">refresh</span>
+                    <span data-i18n="server.refresh">Refresh</span>
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="alertContainer"></div>
+                <div id="serverCards" class="servers-grid">
+                    <div class="loading-container">
+                        <div class="spinner"></div>
+                        <p data-i18n="loading">読み込み中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- サーバー追加/編集モーダル -->
+    <div class="modal-overlay" id="serverModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="serverModalTitle">サーバーを追加</h3>
+                <button class="modal-close btn btn-icon" id="closeServerModal" title="Close">
+                    <span class="material-icons">close</span>
+                    <span class="sr-only">閉じる</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="serverForm">
+                    <input type="hidden" id="serverAction" value="add">
+                    <input type="hidden" id="serverOriginalName" value="">
+
+                    <div class="form-group">
+                        <label for="serverName" class="form-label" data-i18n="server.name">サーバー名</label>
+                        <input type="text" id="serverName" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serverCommand" class="form-label" data-i18n="server.command">コマンド</label>
+                        <input type="text" id="serverCommand" class="form-control" required data-i18n-placeholder="server.command.placeholder">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serverArgs" class="form-label" data-i18n="server.args">引数 (改行区切り)</label>
+                        <textarea id="serverArgs" class="form-control" rows="4" data-i18n-placeholder="server.args.placeholder"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="server.env">環境変数</label>
+                        <table class="envs-table" id="envsTable">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="env.key">キー</th>
+                                    <th data-i18n="env.value">値</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="envsBody">
+                                <!-- 環境変数の行がここに追加されます -->
+                            </tbody>
+                        </table>
+                        <button type="button" id="addEnvBtn" class="btn btn-outline btn-sm add-env-btn" title="Add Environment Variable">
+                            <span class="material-icons" style="font-size: 14px;">add</span>
+                            <span data-i18n="env.add">環境変数を追加</span>
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serverTimeout" class="form-label" data-i18n="server.timeout">タイムアウト (秒)</label>
+                        <input type="number" id="serverTimeout" class="form-control" min="5" value="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serverSessionTimeout" class="form-label" data-i18n="server.sessionTimeout">セッションタイムアウト (分)</label>
+                        <div class="input-group">
+                            <input type="number" id="serverSessionTimeout" class="form-control" min="0" value="180">
+                            <span class="form-hint" data-i18n="server.sessionTimeout.hint">0 = 無制限、空白 = デフォルト値(180分)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="serverDisabled"> <span data-i18n="server.disable">無効にする</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelServerBtn" title="Cancel">
+                    <span class="material-icons">close</span>
+                    <span data-i18n="button.cancel">キャンセル</span>
+                </button>
+                <button type="button" class="btn btn-primary" id="saveServerBtn" title="Save">
+                    <span class="material-icons">save</span>
+                    <span data-i18n="button.save">保存</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- サーバー詳細表示モーダル -->
+    <div class="modal-overlay" id="serverDetailsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="serverDetailsTitle">サーバー詳細</h3>
+                <button class="modal-close btn btn-icon" id="closeServerDetailsModal" title="Close">
+                    <span class="material-icons">close</span>
+                    <span class="sr-only">閉じる</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="serverDetailsContent">
+                    <div class="server-info-section">
+                        <h4 data-i18n="server.details.basicInfo">基本情報</h4>
+                        <div id="serverBasicInfo" class="info-grid"></div>
+                    </div>
+
+                    <div class="server-info-section">
+                        <h4 data-i18n="server.details.toolsList">ツール一覧</h4>
+                        <div class="spinner-container" id="toolsLoadingSpinner">
+                            <div class="spinner"></div>
+                            <p data-i18n="loading">読み込み中...</p>
+                        </div>
+                        <div id="serverToolsList" class="tools-list-cards"></div>
+                    </div>
+
+                    <div class="server-info-section">
+                        <h4 data-i18n="server.details.environment">環境変数</h4>
+                        <div id="serverEnvVars" class="env-vars-list"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="closeServerDetailsBtn" title="Close">
+                    <span class="material-icons">close</span>
+                    <span data-i18n="button.close">閉じる</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 確認モーダル -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">確認</h3>
+                <button class="modal-close btn btn-icon" id="closeConfirmModal" title="Close">
+                    <span class="material-icons">close</span>
+                    <span class="sr-only">閉じる</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelConfirmBtn" title="Cancel">
+                    <span class="material-icons">close</span>
+                    <span data-i18n="button.cancel">キャンセル</span>
+                </button>
+                <button type="button" class="btn btn-danger" id="confirmBtn" title="Delete">
+                    <span class="material-icons">delete</span>
+                    <span data-i18n="button.delete">削除</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/admin/static/i18n.js" type="module"></script>
+    <script src="/admin/static/script.js" type="module"></script>
+</body>
+
+</html>
