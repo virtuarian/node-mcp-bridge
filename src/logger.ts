@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import pino, { LoggerOptions, TransportTargetOptions } from 'pino';
+import { pino, LoggerOptions, TransportTargetOptions } from 'pino';
 
 // Get log level from environment variables (default is 'info')
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';

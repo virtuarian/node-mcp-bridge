@@ -26,7 +26,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { setTimeout as setTimeoutPromise } from 'timers/promises';
 import logger from './logger.js';
-import { config, loadMcpSettings, saveMcpSettings, secondsToMs, validateServerConfig } from './config';
+import { config, loadMcpSettings, saveMcpSettings, secondsToMs, validateServerConfig } from './config.js';
 import {
   McpConnection,
   ServerConfig,
@@ -37,7 +37,7 @@ import {
   McpResourceResponse,
   McpServer,
   ServerManagerState
-} from './types';
+} from './types.js';
 
 export class MCPServerManager {
   private connections: Map<string, McpConnection> = new Map();

@@ -26,7 +26,8 @@ import { fileURLToPath } from 'url';
 import { config, loadMcpSettings, validateServerConfig, saveMcpSettings } from './config.js';
 import { MCPServerManager } from './server-manager.js';
 import logger from './logger.js';
-import pinoHttp from 'pino-http';
+import pinoHttpModule from 'pino-http';
+const pinoHttp = pinoHttpModule.default;
 import { LowDBSessionManager as SessionManager } from './lowdb-session-manager.js';
 
 // Alternative to __dirname (for ES modules)

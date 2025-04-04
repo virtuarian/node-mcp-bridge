@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs/promises';
-import { ServerConfig, McpSettings } from './types';
+import { ServerConfig, McpSettings } from './types.js';
 
 // Configuration
 export const config = {
