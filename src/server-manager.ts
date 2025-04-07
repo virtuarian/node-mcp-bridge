@@ -371,7 +371,7 @@ export class MCPServerManager {
   // Fetch tools list from all servers
   async fetchAllToolsList(): Promise<McpTool[]> {
     logger.info('Fetching tools from all servers');
-    const servers = this.getAllServers();
+    const servers = this.getAllServers().filter(server => !server.disabled);
     const allTools: McpTool[] = [];
 
     for (const server of servers) {
@@ -392,6 +392,12 @@ export class MCPServerManager {
       const connection = this.connections.get(serverName);
       if (!connection || !connection.client) {
         log.warn('Connection not available, returning empty tools list');
+        return [];
+      }
+
+      // Check if server is disabled
+      if (connection.server.disabled) {
+        log.info('Server is disabled, returning empty tools list');
         return [];
       }
 
@@ -452,6 +458,297 @@ export class MCPServerManager {
       return [];
     }
   }
+
+
+  /**
+   * Fetch tools for function calling format
+   * @param serverName Optional server name to fetch tools from
+   * @returns Array of tools in function calling format
+   */
+  async fetchFunctionCallingTools(serverName?: string): Promise<Array<{
+    type: string;
+    function: {
+      name: string;
+      description: string;
+      parameters: Record<string, any>;
+    };
+  }>> {
+    const log = logger.child({ serverName });
+    log.info('Fetching tools for function calling format');
+
+    try {
+
+      // serverName is specified, check if the server is disabled
+      if (serverName) {
+        const connection = this.connections.get(serverName);
+        if (connection?.server.disabled) {
+          log.info('Specified server is disabled, returning empty tools list');
+          return [];
+        }
+      }
+
+      // Fetch tools list
+      const mcpTools = serverName
+        ? await this.fetchToolsList(serverName)
+        : await this.fetchAllToolsList();
+
+      // Filter out tools that are not auto-approvable
+      const functionTools = mcpTools.map(tool => {
+        const schema = tool.schema || {
+          type: 'object',
+          properties: {},
+          required: []
+        };
+
+        const functionName = `${tool.serverName}_${tool.name}`
+          .replace(/[^a-zA-Z0-9_]/g, '_')
+          .toLowerCase();
+
+        const description = tool.description ||
+          `Tool '${tool.name}' from MCP server '${tool.serverName}'`;
+
+        return {
+          type: "function",
+          function: {
+            name: functionName,
+            description: description,
+            parameters: {
+              ...schema,
+              // 追加メタデータを含める（オプション）
+              "x-mcp-metadata": {
+                serverName: tool.serverName,
+                toolName: tool.name,
+                autoApprove: tool.autoApprove
+              }
+            }
+          }
+        };
+      });
+
+      log.info({ toolCount: functionTools.length }, 'Function calling tools prepared successfully');
+      return functionTools;
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      log.error({ error: errorMsg }, 'Failed to fetch function calling tools');
+      return [];
+    }
+  }
+
+  /**
+   * OpenAI Function Callingの呼び出し結果を実際のMCPツール呼び出しに変換する
+   * @param functionCall OpenAIから返された関数呼び出し情報
+   * @returns MCP Tool呼び出し結果
+   */
+  async executeFunctionCall(functionCall: {
+    name: string;
+    arguments: string;
+  }): Promise<McpToolCallResponse> {
+    const log = logger.child({ functionCall: functionCall.name });
+    log.info('Executing function call from OpenAI');
+
+    try {
+      // 関数名からサーバー名とツール名を抽出
+      const nameParts = functionCall.name.split('_');
+      // 最初の部分をサーバー名、残りをツール名として扱う（アンダースコアを含む場合があるため）
+      const serverName = nameParts[0];
+      const toolName = nameParts.slice(1).join('_');
+
+      // 引数を解析
+      let toolArguments: Record<string, any> = {};
+      try {
+        toolArguments = JSON.parse(functionCall.arguments);
+      } catch (e) {
+        log.error({ error: e instanceof Error ? e.message : String(e) }, 'Failed to parse function arguments');
+        throw new Error('Invalid function arguments format');
+      }
+
+      // MCPツールを呼び出す
+      log.info({ serverName, toolName }, 'Calling MCP tool from function call');
+      return await this.callTool(serverName, toolName, toolArguments);
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      log.error({ error: errorMsg }, 'Function call execution failed');
+      throw error;
+    }
+  }
+
+
+  /**
+ * Gemini Function Calling用にフォーマットされたツールリストを取得する
+ * Gemini AIモデルのツール呼び出し機能と互換性のある形式でMCPツールを返す
+ * 有効なサーバーからのみツールを取得
+ * @param serverName ツールを取得するサーバー名（指定なしの場合は全有効サーバー）
+ * @returns Gemini Function Calling形式のツール定義配列
+ */
+  async fetchGeminiFunctionCallingTools(serverName?: string): Promise<Array<{
+    function_declarations:[{
+      name: string;
+      description: string;
+      parameters: {
+        type: "OBJECT";
+        properties: Record<string, any>;
+        required?: string[];
+      };
+    }]
+  }>> {
+    const log = logger.child({ serverName });
+    log.info('Fetching tools for Gemini function calling format from enabled servers');
+
+    try {
+      // 特定のサーバーが指定された場合、そのサーバーが有効かチェック
+      if (serverName) {
+        const connection = this.connections.get(serverName);
+        if (connection?.server.disabled) {
+          log.info('Specified server is disabled, returning empty tools list');
+          return [];
+        }
+      }
+
+      // 全サーバーまたは特定のサーバーからツールを取得
+      const mcpTools = serverName
+        ? await this.fetchToolsList(serverName)
+        : await this.fetchAllToolsList();
+
+      // Gemini形式に変換
+      const geminiTools = mcpTools.map(tool => {
+        // MCPツールのスキーマ取得
+        const schema = tool.schema || {
+          type: 'object',
+          properties: {},
+          required: []
+        };
+
+        // 名前の作成（サーバー名とツール名を組み合わせる）
+        const functionName = `${tool.serverName}_${tool.name}`
+          .replace(/[^a-zA-Z0-9_]/g, '_')
+          .toLowerCase();
+
+        // 説明がない場合はデフォルトの説明を提供
+        const description = tool.description ||
+          `Tool '${tool.name}' from MCP server '${tool.serverName}'`;
+
+        // GeminiのFunction Calling形式に変換
+        // Geminiの場合はtypeが"OBJECT"（大文字）であることと、
+        // プロパティ構造がOpenAIとは異なることに注意
+        return {
+          function_declarations: [{
+            name: functionName,
+            description: description,
+            parameters: {
+              type: "OBJECT" as const, // Using a const assertion to ensure type is the literal "OBJECT"
+              properties: this.convertPropertiesToGeminiFormat(schema.properties || {}),
+              required: schema.required as string[] || []
+            }
+          }] as [{
+            name: string;
+            description: string;
+            parameters: {
+              type: "OBJECT";
+              properties: Record<string, any>;
+              required?: string[];
+            };
+          }]
+        };
+      });
+
+      log.info({ toolCount: geminiTools.length }, 'Gemini function calling tools from enabled servers prepared successfully');
+      return geminiTools;
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      log.error({ error: errorMsg }, 'Failed to fetch Gemini function calling tools');
+      return [];
+    }
+  }
+
+  /**
+   * OpenAI形式のプロパティをGemini形式に変換するヘルパー関数
+   * Geminiは型の表記が異なるため変換が必要
+   */
+  private convertPropertiesToGeminiFormat(properties: Record<string, any>): Record<string, any> {
+    const result: Record<string, any> = {};
+
+    for (const [key, prop] of Object.entries(properties)) {
+      // プロパティをコピー
+      result[key] = { ...prop };
+
+      // 型の変換（小文字から大文字へ）
+      if (prop.type) {
+        // Geminiの型は大文字なので変換
+        const typeMap: Record<string, string> = {
+          'string': 'STRING',
+          'number': 'NUMBER',
+          'integer': 'INTEGER',
+          'boolean': 'BOOLEAN',
+          'array': 'ARRAY',
+          'object': 'OBJECT'
+        };
+
+        result[key].type = typeMap[prop.type.toLowerCase()] || prop.type.toUpperCase();
+      }
+
+      // ネストされたobjectプロパティを再帰的に処理
+      if (prop.type === 'object' && prop.properties) {
+        result[key].properties = this.convertPropertiesToGeminiFormat(prop.properties);
+      }
+
+      // array型の場合、itemsも処理
+      if (prop.type === 'array' && prop.items) {
+        if (prop.items.type) {
+          const itemsType = prop.items.type.toLowerCase();
+          const typeMap: Record<string, string> = {
+            'string': 'STRING',
+            'number': 'NUMBER',
+            'integer': 'INTEGER',
+            'boolean': 'BOOLEAN',
+            'array': 'ARRAY',
+            'object': 'OBJECT'
+          };
+          result[key].items = { ...prop.items, type: typeMap[itemsType] || prop.items.type.toUpperCase() };
+        }
+
+        // itemsがobjectでpropertiesを持つ場合、再帰的に処理
+        if (prop.items.type === 'object' && prop.items.properties) {
+          result[key].items.properties = this.convertPropertiesToGeminiFormat(prop.items.properties);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Gemini Function Callingの呼び出し結果を実際のMCPツール呼び出しに変換する
+   * @param functionCall Geminiから返された関数呼び出し情報
+   * @returns MCP Tool呼び出し結果
+   */
+  async executeGeminiFunctionCall(functionCall: {
+    name: string;
+    arguments: Record<string, any>;
+  }): Promise<McpToolCallResponse> {
+    const log = logger.child({ functionCall: functionCall.name });
+    log.info('Executing function call from Gemini');
+
+    try {
+      // 関数名からサーバー名とツール名を抽出
+      const nameParts = functionCall.name.split('_');
+      // 最初の部分をサーバー名、残りをツール名として扱う
+      const serverName = nameParts[0];
+      const toolName = nameParts.slice(1).join('_');
+
+      // 引数を取得（Geminiの場合はすでにオブジェクト形式）
+      const toolArguments = functionCall.arguments || {};
+
+      // MCPツールを呼び出す
+      log.info({ serverName, toolName }, 'Calling MCP tool from Gemini function call');
+      return await this.callTool(serverName, toolName, toolArguments);
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      log.error({ error: errorMsg }, 'Gemini function call execution failed');
+      throw error;
+    }
+  }
+
+
 
   // Fetch resources list
   async fetchResourcesList(serverName: string): Promise<McpResource[]> {

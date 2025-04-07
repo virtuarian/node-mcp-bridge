@@ -293,3 +293,38 @@ export default function Home() {
   );
 }
 ```
+
+
+```javascript
+// OpenAI API を使用したツール呼び出しの例
+const response = await fetch('http://localhost:3001/tools/function-calling');
+const { tools } = await response.json();
+
+// OpenAI API に tools を渡す
+const openaiResponse = await openai.chat.completions.create({
+  model: "gpt-4",
+  messages: [
+    { role: "user", content: "ブラウザでGoogleのホームページを開いてください" }
+  ],
+  tools: tools
+});
+
+// OpenAI からの応答に function_call が含まれていれば実行
+const message = openaiResponse.choices[0].message;
+if (message.tool_calls) {
+  const toolCall = message.tool_calls[0];
+  
+  // MCPブリッジを通じて実際のツールを実行
+  const result = await fetch('http://localhost:3001/tools/function-call', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: toolCall.function.name,
+      arguments: toolCall.function.arguments
+    })
+  });
+  
+  const mcpResult = await result.json();
+  console.log("実行結果:", mcpResult);
+}
+```

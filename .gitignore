@@ -5,3 +5,7 @@ config/mcp-settings.json
 dist
 docker-compose.yml
 Dockerfile
+sample/MCPAgent.bas
+sample/JsonConverter.bas
+sample/MCPConfig.bas
+sample/MCPUtils.bas

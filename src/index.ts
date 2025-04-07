@@ -78,7 +78,6 @@ async function main() {
       res.status(200).json({ status: 'ok' });
     });
 
-
     // Tools list endpoint
     app.get('/tools', async (req, res) => {
       try {
@@ -107,13 +106,7 @@ async function main() {
 
     // === MCP Command API ===
 
-    // セッション作成エンドポイント
-    // app.post('/sessions', (req, res) => {
-    //   const sessionId = sessionManager.createSession();
-    //   res.status(200).json({ sessionId });
-    // });
-
-    // ツール承認エンドポイント
+    // Tool approval endpoint
     app.post('/tools/call/:sessionId/approve', async (req, res) => {
       const { sessionId } = req.params;
       // const { serverName, toolName } = req.body;
@@ -147,7 +140,86 @@ async function main() {
       }
     });
 
-    // セッションベースのツール呼び出しエンドポイント
+
+    // Function calling tools list endpoint
+    app.get('/tools/function-calling', async (req, res) => {
+      try {
+        const { provider, serverName } = req.query;
+
+
+        if (!provider) {
+          return res.status(400).json({ error: 'Provider is required' });
+        }
+
+        let functionTools;
+        if (provider === 'gemini') {
+          functionTools = await serverManager.fetchGeminiFunctionCallingTools(
+            typeof serverName === 'string' ? serverName : undefined
+          );
+        }
+        else {
+          functionTools = await serverManager.fetchFunctionCallingTools(
+            typeof serverName === 'string' ? serverName : undefined
+          );
+        }
+
+        // logger.info({ functionTools }, 'Function tools fetched successfully');
+        logger.info('Function tools fetched successfully');
+
+        res.status(200).json({ tools: functionTools });
+      } catch (error) {
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        logger.error({ error: errorMsg }, 'Function tools fetch error');
+        res.status(500).json({ error: errorMsg });
+      }
+    });
+
+    // Function call endpoint with session
+    app.post('/tools/function-call', async (req, res) => {
+      try {
+        const { name, arguments: args } = req.body;
+
+        if (!name) {
+          return res.status(400).json({ error: 'Function name is required' });
+        }
+
+        const result = await serverManager.executeFunctionCall({
+          name,
+          arguments: typeof args === 'string' ? args : JSON.stringify(args)
+        });
+
+        res.status(200).json(result);
+      } catch (error) {
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        logger.error({ error: errorMsg }, 'Function call execution error');
+        res.status(500).json({ error: errorMsg });
+      }
+    });
+
+    // Function call endpoint with Gemini provider
+    app.post('/tools/gemini-function-call', async (req, res) => {
+      try {
+        const { name, arguments: functionArgs } = req.body;
+        
+        if (!name) {
+          return res.status(400).json({ error: 'Function name is required' });
+        }
+    
+        // Function Calling for Gemini provider
+        const result = await serverManager.executeGeminiFunctionCall({
+          name,
+          arguments: functionArgs || {}
+        });
+    
+        res.status(200).json(result);
+      } catch (error) {
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        logger.error({ error: errorMsg }, 'Gemini function call execution error');
+        res.status(500).json({ error: errorMsg });
+      }
+    });
+
+    // Tool call endpoint with session
     app.post('/tools/call/:sessionId', async (req, res) => {
       try {
         const { sessionId } = req.params;
@@ -169,7 +241,7 @@ async function main() {
 
         logger.info({ sessionId, toolName, serverName }, 'Fetching tools list for server');
 
-        // ツール情報を取得
+        // Fetch tools list from server
         const tools = await serverManager.fetchToolsList(serverName);
         const tool = tools.find(t => t.name === toolName);
 
@@ -181,7 +253,7 @@ async function main() {
 
         logger.info({ sessionId, toolName, serverName, tool }, 'Checking tool approval status');
 
-        // 自動承認がOFFで、セッションでの承認もない場合は承認要求
+        // Check if the tool requires approval
         if (!tool.autoApprove &&
           !await sessionManager.isToolApproved(sessionId, serverName, toolName)) {
           return res.status(403).json({
@@ -194,7 +266,7 @@ async function main() {
           });
         }
 
-        // 承認済みまたは自動承認の場合はツールを実行
+        // Check if the tool is already approved
         logger.info({ sessionId, toolName, serverName }, 'Calling approved tool');
         const result = await serverManager.callTool(serverName, toolName, toolArguments);
 
@@ -240,6 +312,7 @@ async function main() {
         res.status(500).json({ error: error instanceof Error ? error.message : String(error) });
       }
     });
+
 
     // === Admin API ===
 
