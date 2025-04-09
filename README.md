@@ -1,4 +1,4 @@
-# Node MCP Bridge - README
+# Node MCP Bridge - English README
 
 ## Overview
 
@@ -80,6 +80,9 @@ const result = await toolResponse.json();
 | `/tools/call` | POST | Call tools without a session (auto-approved tools only) |
 | `/tools/call/:sessionId` | POST | Call tools with a specific session |
 | `/tools/call/:sessionId/approve` | POST | Approve and call a specific tool for a session |
+| `/tools/function-calling` | GET | Get tools list in function calling format for LLMs (query parameters: provider[required], serverName[optional]) |
+| `/tools/function-call` | POST | Execute an OpenAI format function call (request body: name[required], arguments[optional]) |
+| `/tools/gemini-function-call` | POST | Execute a Gemini format function call (request body: name[required], arguments[optional]) |
 
 ### Admin API
 
@@ -171,7 +174,7 @@ End Sub
 
 ### Calling from Next.js
 
-Example of calling Node MCP Bridge from a Next.js application
+Example of calling Node MCP Bridge from a Next.js application:
 
 ```javascript
 // pages/api/mcp-bridge.js
@@ -291,3 +294,43 @@ export default function Home() {
   );
 }
 ```
+
+```javascript
+// Example of tool calling using OpenAI API
+const response = await fetch('http://localhost:3001/tools/function-calling');
+const { tools } = await response.json();
+
+// Pass tools to OpenAI API
+const openaiResponse = await openai.chat.completions.create({
+  model: "gpt-4",
+  messages: [
+    { role: "user", content: "Please open Google homepage in the browser" }
+  ],
+  tools: tools
+});
+
+// Execute if OpenAI response contains function_call
+const message = openaiResponse.choices[0].message;
+if (message.tool_calls) {
+  const toolCall = message.tool_calls[0];
+  
+  // Execute the actual tool through MCP bridge
+  const result = await fetch('http://localhost:3001/tools/function-call', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: toolCall.function.name,
+      arguments: toolCall.function.arguments
+    })
+  });
+  
+  const mcpResult = await result.json();
+  console.log("Execution result:", mcpResult);
+}
+```
+
+## Version History
+
+### ver1.0.5
+- Added support for Gemini function calling
+- Added AI agent sample for Excel

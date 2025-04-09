@@ -82,6 +82,9 @@ const result = await toolResponse.json();
 | `/tools/call` | POST | セッションなしでツールを呼び出します（自動承認ツールのみ） |
 | `/tools/call/:sessionId` | POST | 特定のセッションでツールを呼び出します |
 | `/tools/call/:sessionId/approve` | POST | 特定のツールの使用をセッションに承認しツールを呼び出します |
+| `/tools/function-calling` | GET | LLM向けにfunction calling形式でツール一覧を取得します（クエリパラメータ: provider[必須], serverName[任意]） |
+| `/tools/function-call` | POST | OpenAI形式のfunction callを実行します（リクエストボディ: name[必須], arguments[任意]） |
+| `/tools/gemini-function-call` | POST | Gemini形式のfunction callを実行します（リクエストボディ: name[必須], arguments[任意]） |
 
 ### 管理API
 
@@ -328,3 +331,10 @@ if (message.tool_calls) {
   console.log("実行結果:", mcpResult);
 }
 ```
+
+
+## バージョン履歴
+
+### ver1.0.5
+- Geminiのfunction callingに対応
+- SampleにExcel版のAIエージェントを追加

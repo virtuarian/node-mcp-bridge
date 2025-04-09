@@ -1,7 +1,7 @@
 {
   "name": "node-mcp-bridge",
-  "version": "1.0.1",
-  "description": "Model Context Protocol Bridge for Canis AI",
+  "version": "1.0.5",
+  "description": "Model Context Protocol Bridge",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
