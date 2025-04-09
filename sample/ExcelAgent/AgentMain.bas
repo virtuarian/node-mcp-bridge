@@ -19,7 +19,7 @@ Private mDisplayWorksheet As Worksheet
 Public Sub RunGeminiReActAgent()
     ' 初期化
     InitializeAgent
-    
+    InitializeTools
     ' UIの設定
     Dim ws As Worksheet
     On Error Resume Next
@@ -98,26 +98,26 @@ Private Sub InitializeTools()
     FetchMCPBridgeTools
     
     ' VBA関数呼び出しツールを追加
-'    mToolCount = mToolCount + 1
-'    ReDim Preserve mTools(1 To mToolCount)
-'
-'    ' VBA関数ツール設定
-'    Dim vbaToolIndex As Integer
-'    vbaToolIndex = mToolCount
-'
-'    mTools(vbaToolIndex).name = "callVBAFunction"
-'    mTools(vbaToolIndex).description = "登録済みのVBA関数を呼び出します"
-'    ReDim mTools(vbaToolIndex).parameters(1 To 2)
-'
-'    mTools(vbaToolIndex).parameters(1).name = "functionName"
-'    mTools(vbaToolIndex).parameters(1).description = "呼び出すVBA関数名"
-'    mTools(vbaToolIndex).parameters(1).required = True
-'    mTools(vbaToolIndex).parameters(1).paramType = "string"
-'
-'    mTools(vbaToolIndex).parameters(2).name = "params"
-'    mTools(vbaToolIndex).parameters(2).description = "関数に渡すパラメータ（JSON配列形式）"
-'    mTools(vbaToolIndex).parameters(2).required = False
-'    mTools(vbaToolIndex).parameters(2).paramType = "string"
+    mToolCount = mToolCount + 1
+    ReDim Preserve mTools(1 To mToolCount)
+
+    ' VBA関数ツール設定
+    Dim vbaToolIndex As Integer
+    vbaToolIndex = mToolCount
+
+    mTools(vbaToolIndex).name = "excel_function"
+    mTools(vbaToolIndex).description = "登録済みのVBA関数を呼び出します"
+    ReDim mTools(vbaToolIndex).parameters(1 To 2)
+
+    mTools(vbaToolIndex).parameters(1).name = "functionName"
+    mTools(vbaToolIndex).parameters(1).description = "呼び出すVBA関数名"
+    mTools(vbaToolIndex).parameters(1).required = True
+    mTools(vbaToolIndex).parameters(1).paramType = "string"
+
+    mTools(vbaToolIndex).parameters(2).name = "params"
+    mTools(vbaToolIndex).parameters(2).description = "関数に渡すパラメータ（JSON配列形式）"
+    mTools(vbaToolIndex).parameters(2).required = False
+    mTools(vbaToolIndex).parameters(2).paramType = "string"
     
     Debug.Print "ツール初期化完了。合計: " & mToolCount & " ツール"
 End Sub
@@ -160,8 +160,6 @@ End Sub
 
 ' AIエージェントの実行部分
 Private Function ExecuteAgentTask(prompt As String) As String
-    Dim maxIterations As Integer
-    maxIterations = 50 ' 最大反復回数（増やして複雑なタスクに対応）
     
     Dim currentIteration As Integer
     currentIteration = 0
@@ -179,7 +177,7 @@ Private Function ExecuteAgentTask(prompt As String) As String
     initialThought = "ユーザーの要求を分析し、対応方法を考えています。"
     
     ' ReActループ - 思考と行動を繰り返す
-    Do While currentIteration < maxIterations
+    Do While currentIteration < MAX_ITERATIONS
         currentIteration = currentIteration + 1
         Debug.Print "--- ReAct実行サイクル #" & currentIteration & " ---"
         
@@ -220,7 +218,7 @@ Private Function ExecuteAgentTask(prompt As String) As String
             toolResult = ExecuteTool(toolName, toolArgs)
             
             ' STEP 3: OBSERVATION - 結果を記録
-            Debug.Print "観察: " & Left(toolResult, 100) & IIf(Len(toolResult) > 100, "...", "")
+            Debug.Print "観察: " & left(toolResult, 100) & IIf(Len(toolResult) > 100, "...", "")
             AddToHistory "observation", "Observation: " & toolResult
             
             ' リアルタイム表示
@@ -239,6 +237,17 @@ Private Function ExecuteAgentTask(prompt As String) As String
                 ' 予期しない応答形式の場合
                 Debug.Print "予期しない応答: " & responseType & ": " & responseContent
                 AddToHistory "error", "エラー: 応答形式が不正です: " & responseType
+                
+                ' 5秒間待機処理を追加
+                Dim waitTime As Date
+                waitTime = Now + TimeSerial(0, 0, 5)
+                Debug.Print "予期しない応答のため5秒間待機します..." & Format(Now, "hh:mm:ss")
+                Application.Wait waitTime
+                Debug.Print "待機終了: " & Format(Now, "hh:mm:ss")
+                
+                ' リアルタイム表示
+                DisplayRealtimeOutput "error", "予期しない応答のため5秒間待機しました: " & responseType
+                    
         End Select
     Loop
     
@@ -433,8 +442,8 @@ Private Function CleanupResponseContent(content As String) As String
         halfLength = fullLength \ 2
         
         ' テキストの後半が前半の繰り返しになっていないか確認
-        If Right(cleanText, halfLength) = Left(cleanText, halfLength) Then
-            cleanText = Left(cleanText, fullLength - halfLength)
+        If Right(cleanText, halfLength) = left(cleanText, halfLength) Then
+            cleanText = left(cleanText, fullLength - halfLength)
         End If
     End If
     
@@ -528,8 +537,8 @@ Private Function GetPromptWithReActFormat(userMessage As String) As String
     prompt = prompt & "- ""Observation: [ツールの結果]""" & vbCrLf
     prompt = prompt & "- ""Answer: [最終回答]""" & vbCrLf & vbCrLf
     
-    ' 利用可能なツールを追加
-    prompt = prompt & "利用可能なツール:" & vbCrLf
+    ' 利用可能なMCPツールを追加
+    prompt = prompt & "利用可能なMCPツール:" & vbCrLf
     
     Dim i As Integer, j As Integer
     For i = 1 To mToolCount
@@ -546,6 +555,9 @@ Private Function GetPromptWithReActFormat(userMessage As String) As String
         
         prompt = prompt & vbCrLf
     Next i
+
+    ' 利用可能なExcelツールを追加
+    prompt = prompt & GetProcedureInfo & vbCrLf
     
     ' 会話履歴を追加
     prompt = prompt & "これまでの会話:" & vbCrLf
@@ -586,7 +598,7 @@ Private Function ExecuteTool(toolName As String, argsJsonStr As String) As Strin
     Debug.Print "ツール実行: " & toolName & " 引数: " & argsJsonStr
     
     ' VBA関数呼び出しの場合
-    If toolName = "callVBAFunction" Then
+    If toolName = "excel_function" Then
         ExecuteTool = CallVBAFunction(argsJsonStr)
         Exit Function
     End If
@@ -865,7 +877,7 @@ Private Sub ExtractToolsFromJsonString(jsonStr As String)
         mTools(index).name = toolName
         mTools(index).description = description
         
-        Debug.Print "ツール[" & index & "]: " & toolName & " - " & Left(description, 30) & IIf(Len(description) > 30, "...", "")
+        Debug.Print "ツール[" & index & "]: " & toolName & " - " & left(description, 30) & IIf(Len(description) > 30, "...", "")
         
         ' パラメータ情報を抽出
         If toolInfo.Exists("parameters") Then
@@ -1054,6 +1066,7 @@ Private Function ShortenContent(content As String, maxLength As Integer) As Stri
     If Len(content) <= maxLength Then
         ShortenContent = content
     Else
-        ShortenContent = Left(content, maxLength - 3) & "..."
+        ShortenContent = left(content, maxLength - 3) & "..."
     End If
 End Function
+

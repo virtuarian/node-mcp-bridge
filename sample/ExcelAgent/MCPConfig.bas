@@ -6,6 +6,7 @@ Public Const MCP_BRIDGE_URL As String = "http://localhost:3001"
 Public Const GEMINI_API_URL As String = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent"
 Public Const GEMINI_API_KEY As String = "YOUR_API_KEY_HERE" ' ここにGemini APIキーを設定
 
+Public Const MAX_ITERATIONS As String = 80     ' 最大反復回数（増やして複雑なタスクに対応）
 
 ' 列挙型: 会話の役割
 Public Enum ConversationRole

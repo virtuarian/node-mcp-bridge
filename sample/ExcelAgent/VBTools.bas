@@ -1,130 +1,1577 @@
-' VBAé–¢æ•°å‘¼ã³å‡ºã—
+
+' ŠÖ”‚Ìà–¾
+Public Function GetProcedureInfo()
+    Dim info As String
+    info = "Excel‘€ìƒc[ƒ‹‚Ìg—p•û–@:" & vbCrLf _
+        & "- CreateWorksheet: V‚µ‚¢ƒ[ƒNƒV[ƒg‚ğì¬‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""CreateWorksheet"", ""params"": [""V‚µ‚¢ƒV[ƒg"", ""last""] }" & vbCrLf _
+        & "- CreateChart: ƒOƒ‰ƒt‚ğì¬‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""CreateChart"", ""params"": [""Sheet1"", ""A1:B10"", ""column"", ""”„ãƒOƒ‰ƒt""] }" & vbCrLf _
+        & "- CreateTable: Excelƒe[ƒuƒ‹‚ğì¬‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""CreateTable"", ""params"": [""Sheet1"", ""A1:D10"", ""MyTable""] }" & vbCrLf _
+        & "- CreatePivotTable: ƒsƒ{ƒbƒgƒe[ƒuƒ‹‚ğì¬‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""CreatePivotTable"", ""params"": [""ƒf[ƒ^ƒV[ƒg"", ""A1:D100"", ""ƒsƒ{ƒbƒgƒV[ƒg"", ""A3"", ""•”,Ğˆõ"", ""”N“x"", ""”„ã""] }" & vbCrLf _
+        & "- SortData: ƒf[ƒ^‚ğ•À‚×‘Ö‚¦‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""SortData"", ""params"": [""Sheet1"", ""A1:D10"", ""A"", ""ascending"", true] }" & vbCrLf _
+        & "- ApplyFilter: ƒf[ƒ^‚ÉƒtƒBƒ‹ƒ^[‚ğ“K—p‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""ApplyFilter"", ""params"": [""Sheet1"", ""A1:D10"", ""A"", ""’l"", ""equals""] }" & vbCrLf _
+        & "- ApplyConditionalFormat: ğŒ•t‚«‘®‚ğ“K—p‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""ApplyConditionalFormat"", ""params"": [""Sheet1"", ""A1:D10"", ""cellvalue"", ""greater than,100"", ""lightred""] }" & vbCrLf _
+        & "- InsertFormula: ”®‚ğ‘}“ü‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""InsertFormula"", ""params"": [""Sheet1"", ""A1"", ""SUM(B1:B10)""] }" & vbCrLf _
+        
+        
+    info = info & "- GetMultipleCellValues: •¡”‚ÌƒZƒ‹’l‚ğˆê“x‚Éæ“¾‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""GetMultipleCellValues"", ""params"": [""Sheet1"", ""A1,B2,C3""] }" & vbCrLf _
+        & "  JSONŒ`®: excel_function { ""functionName"": ""GetMultipleCellValues"", ""params"": [""Sheet1"", ""[""A1"",""B2"",""C3""]""] }" & vbCrLf _
+        & "  ƒJƒXƒ^ƒ€ƒL[: excel_function { ""functionName"": ""GetMultipleCellValues"", ""params"": [""Sheet1"", ""{""""name"":""A1"",""value"":""B2""""}""] }" & vbCrLf _
+        & "- SetMultipleCellValues: •¡”‚ÌƒZƒ‹’l‚ğˆê“x‚Éİ’è‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""SetMultipleCellValues"", ""params"": [""Sheet1"", ""{""""A1"":""’l1"",""B2"":""’l2""""}""] }" & vbCrLf
+
+    info = info & "- FormatCells: ƒZƒ‹‚Ì‘®‚ğİ’è‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""FormatCells"", ""params"": [""Sheet1"", ""A1:B10"", ""{""font"":{""name"":""Arial"",...}}""] }" & vbCrLf _
+        & "- FormatBorders: ƒZƒ‹‚ÌŒrü‚ğİ’è‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""FormatBorders"", ""params"": [""Sheet1"", ""A1:D10"", ""{""position"":""outline"",...}""] }" & vbCrLf _
+        & "- FormatNumberStyle: ”’l‘®‚ğİ’è‚µ‚Ü‚·" & vbCrLf _
+        & "  g—p—á: excel_function { ""functionName"": ""FormatNumberStyle"", ""params"": [""Sheet1"", ""A1:A10"", ""currency""] }" & vbCrLf
+
+    GetProcedureInfo = info
+
+End Function
+
+' VBAŠÖ”ŒÄ‚Ño‚µ
 Public Function CallVBAFunction(inputJson As String) As String
     On Error GoTo ErrorHandler
     
-    Debug.Print "VBAé–¢æ•°å‘¼ã³å‡ºã—: " & inputJson
+    Debug.Print "VBAŠÖ”ŒÄ‚Ño‚µ: " & inputJson
     
-    ' JSONã‚’è§£æï¼ˆå˜ç´”ãªæ­£è¦è¡¨ç¾ãƒ‘ãƒ¼ã‚¹ã§ä»£ç”¨ï¼‰
+    ' JSON‚ğ‰ğÍ
+    Dim jsonObject As Object
+    Set jsonObject = JsonConverter.ParseJson(inputJson)
+    
+    ' ŠÖ”–¼‚ğæ“¾
     Dim functionName As String
-    Dim paramsArray As String
-    
-    ' é–¢æ•°åã‚’æŠ½å‡º
-    Dim nameRegex As Object
-    Set nameRegex = CreateObject("VBScript.RegExp")
-    nameRegex.Pattern = """functionName""\s*:\s*""([^""]+)"""
-    
-    Dim nameMatches As Object
-    Set nameMatches = nameRegex.Execute(inputJson)
-    
-    If nameMatches.Count > 0 Then
-        functionName = nameMatches(0).SubMatches(0)
+    If jsonObject.Exists("functionName") Then
+        functionName = jsonObject("functionName")
     Else
-        CallVBAFunction = "ã‚¨ãƒ©ãƒ¼: é–¢æ•°åãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“"
+        CallVBAFunction = "ƒGƒ‰[: ŠÖ”–¼‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ"
         Exit Function
     End If
     
-    ' ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’æŠ½å‡º
-    Dim paramsRegex As Object
-    Set paramsRegex = CreateObject("VBScript.RegExp")
-    paramsRegex.Pattern = """params""\s*:\s*(\[[^\]]*\])"
-    
-    Dim paramsMatches As Object
-    Set paramsMatches = paramsRegex.Execute(inputJson)
-    
-    If paramsMatches.Count > 0 Then
-        paramsArray = paramsMatches(0).SubMatches(0)
+    ' ƒpƒ‰ƒ[ƒ^‚ğæ“¾
+    Dim params As Collection
+    If jsonObject.Exists("params") Then
+        Set params = jsonObject("params")
     Else
-        paramsArray = "[]"
+        Set params = New Collection
     End If
     
-    ' é–¢æ•°åã«å¿œã˜ãŸå‡¦ç†
+    ' ŠÖ”–¼‚É‰‚¶‚½ˆ—
     Select Case functionName
         Case "GetCellValue"
-            ' ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä¾‹: ["Sheet1", "A1"]
-            ' å˜ç´”ãªæ­£è¦è¡¨ç¾ã§é…åˆ—è¦ç´ ã‚’æŠ½å‡º
-            Dim elemRegex As Object
-            Set elemRegex = CreateObject("VBScript.RegExp")
-            elemRegex.Pattern = """([^""]+)"""
-            elemRegex.Global = True
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1"]
+            If params.Count >= 2 Then
+                CallVBAFunction = GetCellValue(params(1), params(2))
+            Else
+                CallVBAFunction = "ƒGƒ‰[: GetCellValue‚É‚Í2‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+        
+        Case "SetCellValue"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1", "V‚µ‚¢’l"]
+            If params.Count >= 3 Then
+                CallVBAFunction = SetCellValue(params(1), params(2), params(3))
+            Else
+                CallVBAFunction = "ƒGƒ‰[: SetCellValue‚É‚Í3‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
             
-            Dim elemMatches As Object
-            Set elemMatches = elemRegex.Execute(paramsArray)
-            
-            If elemMatches.Count >= 2 Then
-                Dim sheet As String, cell As String
-                sheet = elemMatches(0).SubMatches(0)
-                cell = elemMatches(1).SubMatches(0)
-                
-                On Error Resume Next
-                Dim cellValue As Variant
-                cellValue = ThisWorkbook.Sheets(sheet).Range(cell).value
-                
-                If Err.Number = 0 Then
-                    CallVBAFunction = CStr(cellValue)
+        Case "CreateWorksheet"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["V‚µ‚¢ƒV[ƒg"]
+            ' ‚Ü‚½‚Í ["V‚µ‚¢ƒV[ƒg", "last"]
+            If params.Count >= 1 Then
+                If params.Count >= 2 Then
+                    CallVBAFunction = CreateWorksheet(params(1), params(2))
                 Else
-                    CallVBAFunction = "ã‚¨ãƒ©ãƒ¼: ã‚»ãƒ«å€¤ã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸ - " & Err.description
+                    CallVBAFunction = CreateWorksheet(params(1))
                 End If
-                On Error GoTo ErrorHandler
             Else
-                CallVBAFunction = "ã‚¨ãƒ©ãƒ¼: ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä¸è¶³"
+                CallVBAFunction = "ƒGƒ‰[: CreateWorksheet‚É‚Í­‚È‚­‚Æ‚à1‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
             End If
             
-        Case "CalculateSum"
-            ' ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä¾‹: ["Sheet1", "A1:A10"]
-            Dim elemRegex2 As Object
-            Set elemRegex2 = CreateObject("VBScript.RegExp")
-            elemRegex2.Pattern = """([^""]+)"""
-            elemRegex2.Global = True
-            
-            Dim elemMatches2 As Object
-            Set elemMatches2 = elemRegex2.Execute(paramsArray)
-            
-            If elemMatches2.Count >= 2 Then
-                Dim sumSheet As String, sumRange As String
-                sumSheet = elemMatches2(0).SubMatches(0)
-                sumRange = elemMatches2(1).SubMatches(0)
+        Case "CreateChart"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1:B10", "column", "”„ãƒOƒ‰ƒt", 100, 100, 350, 250]
+            If params.Count >= 3 Then
+                ' ƒfƒoƒbƒOo—Í‚ğ’Ç‰Á
+                Debug.Print "CreateChart - ƒpƒ‰ƒ[ƒ^”: " & params.Count
+                For i = 1 To params.Count
+                    Debug.Print "params(" & i & "): " & params(i)
+                Next i
                 
-                On Error Resume Next
-                Dim sumResult As Double
-                sumResult = Application.Sum(ThisWorkbook.Sheets(sumSheet).Range(sumRange))
+                Dim title As String, left As Long, top As Long, width As Long, height As Long
                 
-                If Err.Number = 0 Then
-                    CallVBAFunction = CStr(sumResult)
+                ' ƒV[ƒg–¼A”ÍˆÍAƒOƒ‰ƒtí—Ş‚ğ•Ï”‚ÉŠi”[
+                Dim sheetName As String, dataRange As String, chartType As String
+                sheetName = params(1)
+                dataRange = params(2)
+                chartType = params(3)
+                
+                ' ƒIƒvƒVƒ‡ƒ“ƒpƒ‰ƒ[ƒ^‚ğˆÀ‘S‚Éæ“¾
+                title = ""
+                left = 100
+                top = 100 
+                width = 350
+                height = 250
+                
+                ' ƒpƒ‰ƒ[ƒ^‚Ì”‚É‰‚¶‚ÄƒIƒvƒVƒ‡ƒ“ˆø”‚ğİ’è
+                If params.Count >= 4 Then title = params(4)
+                If params.Count >= 5 Then left = CLng(params(5))
+                If params.Count >= 6 Then top = CLng(params(6))
+                If params.Count >= 7 Then width = CLng(params(7))
+                If params.Count >= 8 Then height = CLng(params(8))
+                
+                CallVBAFunction = CreateChart(sheetName, dataRange, chartType, title, left, top, width, height)
+            Else
+                CallVBAFunction = "ƒGƒ‰[: CreateChart‚É‚Í­‚È‚­‚Æ‚à3‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+            
+        Case "CreateTable"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1:D10", "MyTable", "TableStyleMedium2"]
+            If params.Count >= 2 Then
+                Dim tableName As String, tableStyle As String
+                
+                ' ƒfƒoƒbƒOo—Í‚ğ’Ç‰Á
+                Debug.Print "CreateTable - ƒpƒ‰ƒ[ƒ^”: " & params.Count
+                For i = 1 To params.Count
+                    Debug.Print "params(" & i & "): " & params(i)
+                Next i
+                
+                ' C³FˆÀ‘S‚Éƒpƒ‰ƒ[ƒ^‚ğæ“¾
+                If params.Count >= 3 Then
+                    tableName = params(3)
                 Else
-                    CallVBAFunction = "ã‚¨ãƒ©ãƒ¼: åˆè¨ˆã®è¨ˆç®—ã«å¤±æ•—ã—ã¾ã—ãŸ - " & Err.description
+                    tableName = ""
                 End If
-                On Error GoTo ErrorHandler
+                
+                If params.Count >= 4 Then
+                    tableStyle = params(4)
+                Else
+                    tableStyle = "TableStyleMedium2"
+                End If
+                
+                CallVBAFunction = CreateTable(params(1), params(2), tableName, tableStyle)
             Else
-                CallVBAFunction = "ã‚¨ãƒ©ãƒ¼: ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä¸è¶³"
+                CallVBAFunction = "ƒGƒ‰[: CreateTable‚É‚Í­‚È‚­‚Æ‚à2‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
             End If
             
-        Case "ShowMessage"
-            ' ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä¾‹: ["ã“ã‚“ã«ã¡ã¯"]
-            Dim msgRegex As Object
-            Set msgRegex = CreateObject("VBScript.RegExp")
-            msgRegex.Pattern = """([^""]+)"""
-            
-            Dim msgMatches As Object
-            Set msgMatches = msgRegex.Execute(paramsArray)
-            
-            If msgMatches.Count >= 1 Then
-                Dim msg As String
-                msg = msgMatches(0).SubMatches(0)
-                MsgBox msg, vbInformation, "ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸"
-                CallVBAFunction = "ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã—ã¾ã—ãŸ: " & msg
+        Case "CreatePivotTable"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["ƒf[ƒ^ƒV[ƒg", "A1:D100", "ƒsƒ{ƒbƒgƒV[ƒg", "A3", "•”,Ğˆõ", "”N“x", "”„ã"]
+             If params.Count >= 4 Then
+                Dim rowFields As String, columnFields As String, dataFields As String
+                
+                ' ˆÀ‘S‚Éƒpƒ‰ƒ[ƒ^‚ğæ“¾
+                rowFields = ""
+                columnFields = ""
+                dataFields = ""
+                
+                If params.Count >= 5 Then rowFields = params(5)
+                If params.Count >= 6 Then columnFields = params(6)
+                If params.Count >= 7 Then dataFields = params(7)
+                
+                CallVBAFunction = CreatePivotTable(params(1), params(2), params(3), params(4), _
+                                                rowFields, columnFields, dataFields)
             Else
-                CallVBAFunction = "ã‚¨ãƒ©ãƒ¼: ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“"
+                CallVBAFunction = "ƒGƒ‰[: CreatePivotTable‚É‚Í­‚È‚­‚Æ‚à4‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
             End If
-            
+
+        Case "SortData"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1:D10", "A", "ascending", true]
+             If params.Count >= 3 Then
+                Dim sortOrder As String, hasHeader As Boolean
+                
+                ' ˆÀ‘S‚Éƒpƒ‰ƒ[ƒ^‚ğæ“¾iIIfg—p‚µ‚È‚¢j
+                sortOrder = "ascending"  ' ƒfƒtƒHƒ‹ƒg’l
+                hasHeader = True         ' ƒfƒtƒHƒ‹ƒg’l
+                
+                If params.Count >= 4 Then
+                    sortOrder = params(4)
+                End If
+                
+                If params.Count >= 5 Then
+                    hasHeader = CBool(params(5))
+                End If
+                
+                CallVBAFunction = SortData(params(1), params(2), params(3), sortOrder, hasHeader)
+            Else
+                CallVBAFunction = "ƒGƒ‰[: SortData‚É‚Í­‚È‚­‚Æ‚à3‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+
+        Case "ApplyFilter"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1:D10", "A", "’l", "equals"]
+            If params.Count >= 4 Then
+                Dim operator As String
+                
+                ' ˆÀ‘S‚Éƒpƒ‰ƒ[ƒ^‚ğæ“¾
+                operator = "equals"  ' ƒfƒtƒHƒ‹ƒg’l
+                
+                If params.Count >= 5 Then
+                    operator = params(5)
+                End If
+                
+                CallVBAFunction = ApplyFilter(params(1), params(2), params(3), params(4), operator)
+            Else
+                CallVBAFunction = "ƒGƒ‰[: ApplyFilter‚É‚Í­‚È‚­‚Æ‚à4‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+
+        Case "ApplyConditionalFormat"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1:D10", "cellvalue", "greater than,100", "lightred"]
+            If params.Count >= 4 Then
+                Dim formatStyle As String
+                
+                ' ˆÀ‘S‚Éƒpƒ‰ƒ[ƒ^‚ğæ“¾
+                formatStyle = "default"  ' ƒfƒtƒHƒ‹ƒg’l
+                
+                If params.Count >= 5 Then
+                    formatStyle = params(5)
+                End If
+                
+                CallVBAFunction = ApplyConditionalFormat(params(1), params(2), params(3), params(4), formatStyle)
+            Else
+                CallVBAFunction = "ƒGƒ‰[: ApplyConditionalFormat‚É‚Í­‚È‚­‚Æ‚à4‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+
+        Case "InsertFormula"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1", "SUM(B1:B10)"]
+            If params.Count >= 3 Then
+                ' params(1) = ƒV[ƒg–¼
+                ' params(2) = ƒZƒ‹QÆ
+                ' params(3) = ”®
+                CallVBAFunction = InsertFormula(params(1), params(2), params(3))
+            Else
+                CallVBAFunction = "ƒGƒ‰[: InsertFormula‚É‚Í3‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+
+       
+        Case "GetMultipleCellValues"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1,B2,C3"] ‚Ü‚½‚Í ["Sheet1", "[\"A1\",\"B2\",\"C3\"]"] ‚Ü‚½‚Í ["Sheet1", "{\"name\":\"A1\",\"value\":\"B2\"}"]
+            If params.Count >= 2 Then
+                CallVBAFunction = GetMultipleCellValues(params(1), params(2))
+            Else
+                CallVBAFunction = "ƒGƒ‰[: GetMultipleCellValues‚É‚Í­‚È‚­‚Æ‚à2‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+
+        Case "SetMultipleCellValues"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "{\"A1\":\"V‚µ‚¢’l1\",\"B2\":\"V‚µ‚¢’l2\"}"]
+            If params.Count >= 2 Then
+                CallVBAFunction = SetMultipleCellValues(params(1), params(2))
+            Else
+                CallVBAFunction = "ƒGƒ‰[: SetMultipleCellValues‚É‚Í­‚È‚­‚Æ‚à2‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+
+        Case "FormatCells"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1:B10", "{\"font\":{\"name\":\"Arial\",\"size\":12,\"bold\":true,\"color\":\"blue\"},\"fill\":{\"color\":\"lightyellow\"},\"alignment\":{\"horizontal\":\"center\"}}"]
+            If params.Count >= 2 Then
+                Dim formatSettings As String
+                formatSettings = ""
+                
+                If params.Count >= 3 Then
+                    formatSettings = params(3)
+                End If
+                
+                CallVBAFunction = FormatCells(params(1), params(2), formatSettings)
+            Else
+                CallVBAFunction = "ƒGƒ‰[: FormatCells‚É‚Í­‚È‚­‚Æ‚à2‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+
+        Case "FormatBorders"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1:D10", "{\"position\":\"outline\",\"weight\":\"medium\",\"color\":\"blue\",\"style\":\"continuous\"}"]
+            If params.Count >= 3 Then
+                CallVBAFunction = FormatBorders(params(1), params(2), params(3))
+            Else
+                CallVBAFunction = "ƒGƒ‰[: FormatBorders‚É‚Í­‚È‚­‚Æ‚à3‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+
+        Case "FormatNumberStyle"
+            ' ƒpƒ‰ƒ[ƒ^—á: ["Sheet1", "A1:A10", "currency"] ‚Ü‚½‚Í ["Sheet1", "A1:A10", "#,##0.00"]
+            If params.Count >= 3 Then
+                CallVBAFunction = FormatNumberStyle(params(1), params(2), params(3))
+            Else
+                CallVBAFunction = "ƒGƒ‰[: FormatNumberStyle‚É‚Í­‚È‚­‚Æ‚à3‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª•K—v‚Å‚·"
+            End If
+             
         Case Else
-            CallVBAFunction = "ã‚¨ãƒ©ãƒ¼: æœªçŸ¥ã®é–¢æ•° '" & functionName & "'"
+            CallVBAFunction = "ƒGƒ‰[: –¢’m‚ÌŠÖ” '" & functionName & "'"
+            
     End Select
     
-    Debug.Print "VBAé–¢æ•°å®Ÿè¡Œçµæœ: " & functionName & " - " & Left(CallVBAFunction, 50) & IIf(Len(CallVBAFunction) > 50, "...", "")
+    'Debug.Print "VBAŠÖ”ÀsŒ‹‰Ê: " & functionName & " - " & Left(CallVBAFunction, 50) & IIf(Len(CallVBAFunction) > 50, "...", "")
     Exit Function
     
 ErrorHandler:
-    CallVBAFunction = "ã‚¨ãƒ©ãƒ¼: " & Err.description
-    Debug.Print "VBAé–¢æ•°å®Ÿè¡Œã‚¨ãƒ©ãƒ¼: " & Err.description
+    CallVBAFunction = "ƒGƒ‰[: " & Err.description
+    Debug.Print "VBAŠÖ”ÀsƒGƒ‰[: " & Err.description
 End Function
 
+' GetCellValueŠÖ”
+Public Function GetCellValue(sheetName As String, cellReference As String) As String
+    On Error GoTo ErrorHandler
+    
+    Dim result As String
+    result = CStr(ThisWorkbook.Sheets(sheetName).Range(cellReference).value)
+    GetCellValue = result
+    Exit Function
+    
+ErrorHandler:
+    GetCellValue = "ƒGƒ‰[: ƒZƒ‹’l‚Ìæ“¾‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' SetCellValueŠÖ”
+Public Function SetCellValue(sheetName As String, cellReference As String, newValue As String) As String
+    On Error GoTo ErrorHandler
+    
+    ThisWorkbook.Sheets(sheetName).Range(cellReference).value = newValue
+    SetCellValue = "ƒZƒ‹ " & sheetName & "!" & cellReference & " ‚É’l """ & newValue & """ ‚ğİ’è‚µ‚Ü‚µ‚½"
+    Exit Function
+    
+ErrorHandler:
+    SetCellValue = "ƒGƒ‰[: ƒZƒ‹’l‚Ìİ’è‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' ƒ[ƒNƒV[ƒg‚Ìì¬
+Public Function CreateWorksheet(sheetName As String, Optional position As String = "last") As String
+    On Error GoTo ErrorHandler
+    
+    Dim ws As Worksheet
+    
+    ' Šù‘¶‚ÌƒV[ƒg–¼‚ğƒ`ƒFƒbƒN
+    Dim sheetExists As Boolean
+    sheetExists = False
+    
+    For Each sheet In ThisWorkbook.Sheets
+        If sheet.name = sheetName Then
+            sheetExists = True
+            Exit For
+        End If
+    Next sheet
+    
+    If sheetExists Then
+        CreateWorksheet = "ƒV[ƒg '" & sheetName & "' ‚ÍŠù‚É‘¶İ‚µ‚Ü‚·"
+        Exit Function
+    End If
+    
+    ' ˆÊ’uƒpƒ‰ƒ[ƒ^‚ÉŠî‚Ã‚¢‚ÄƒV[ƒg‚ğ’Ç‰Á
+    Select Case LCase(position)
+        Case "first"
+            Set ws = ThisWorkbook.Worksheets.Add(Before:=ThisWorkbook.Worksheets(1))
+        Case "last"
+            Set ws = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Worksheets(ThisWorkbook.Worksheets.Count))
+        Case Else
+            ' ”’l‚Æ‚µ‚Ä‰ğß‰Â”\‚Èê‡‚ÍA‚»‚ÌˆÊ’u‚É‘}“ü
+            On Error Resume Next
+            Dim posNum As Integer
+            posNum = CInt(position)
+            
+            If Err.Number = 0 And posNum > 0 And posNum <= ThisWorkbook.Worksheets.Count Then
+                Set ws = ThisWorkbook.Worksheets.Add(Before:=ThisWorkbook.Worksheets(posNum))
+            Else
+                ' ƒfƒtƒHƒ‹ƒg‚ÍÅŒã
+                Set ws = ThisWorkbook.Worksheets.Add(After:=ThisWorkbook.Worksheets(ThisWorkbook.Worksheets.Count))
+            End If
+            On Error GoTo ErrorHandler
+    End Select
+    
+    ws.name = sheetName
+    
+    CreateWorksheet = "ƒV[ƒg '" & sheetName & "' ‚ğì¬‚µ‚Ü‚µ‚½"
+    Exit Function
+    
+ErrorHandler:
+    CreateWorksheet = "ƒGƒ‰[: ƒ[ƒNƒV[ƒg‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' ŠÈˆÕƒOƒ‰ƒt‚Ìì¬
+Public Function CreateChart(sheetName As String, dataRange As String, chartType As String, _
+                            Optional title As String = "", Optional left As Long = 100, _
+                            Optional top As Long = 100, Optional width As Long = 350, _
+                            Optional height As Long = 250) As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        CreateChart = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ƒ`ƒƒ[ƒgƒ^ƒCƒv‚Ì‰ğÍ
+    Dim chartTypeEnum As XlChartType
+    Select Case LCase(chartType)
+        Case "column", "c–_", "–_ƒOƒ‰ƒt"
+            chartTypeEnum = xlColumnClustered
+        Case "bar", "‰¡–_"
+            chartTypeEnum = xlBarClustered
+        Case "line", "Ü‚êü"
+            chartTypeEnum = xlLine
+        Case "pie", "‰~", "‰~ƒOƒ‰ƒt"
+            chartTypeEnum = xlPie
+        Case "area", "–Ê", "–ÊƒOƒ‰ƒt"
+            chartTypeEnum = xlAreaStacked
+        Case "scatter", "U•z}"
+            chartTypeEnum = xlXYScatter
+        Case Else
+            chartTypeEnum = xlColumnClustered ' ƒfƒtƒHƒ‹ƒg‚Íc–_ƒOƒ‰ƒt
+    End Select
+    
+    ' ƒOƒ‰ƒtì¬
+    Dim chartObj As ChartObject
+    Set chartObj = ws.ChartObjects.Add(left, top, width, height)
+    
+    ' ƒf[ƒ^”ÍˆÍİ’è
+    chartObj.Chart.SetSourceData Source:=ws.Range(dataRange)
+    chartObj.Chart.chartType = chartTypeEnum
+    
+    ' ƒ^ƒCƒgƒ‹İ’è
+    If title <> "" Then
+        chartObj.Chart.HasTitle = True
+        chartObj.Chart.ChartTitle.text = title
+    End If
+    
+    CreateChart = "ƒV[ƒg '" & sheetName & "' ‚ÉƒOƒ‰ƒt‚ğì¬‚µ‚Ü‚µ‚½"
+    Exit Function
+    
+ErrorHandler:
+    CreateChart = "ƒGƒ‰[: ƒOƒ‰ƒt‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' Excelƒe[ƒuƒ‹‚Ìì¬
+Public Function CreateTable(sheetName As String, dataRange As String, _
+                            Optional tableName As String = "", _
+                            Optional tableStyle As String = "TableStyleMedium2") As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        CreateTable = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ƒe[ƒuƒ‹–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í©“®¶¬
+    If tableName = "" Then
+        tableName = "Table" & (ThisWorkbook.TableStyles.Count + 1)
+    End If
+    
+    ' ƒe[ƒuƒ‹ì¬
+    Dim tableObj As ListObject
+    Set tableObj = ws.ListObjects.Add(xlSrcRange, ws.Range(dataRange), , xlYes)
+    
+    ' ƒe[ƒuƒ‹–¼‚Æ‘®‚Ìİ’è
+    On Error Resume Next
+    tableObj.name = tableName
+    tableObj.tableStyle = tableStyle
+    On Error GoTo ErrorHandler
+    
+    CreateTable = "ƒV[ƒg '" & sheetName & "' ‚É '" & tableName & "' ƒe[ƒuƒ‹‚ğì¬‚µ‚Ü‚µ‚½"
+    Exit Function
+    
+ErrorHandler:
+    CreateTable = "ƒGƒ‰[: ƒe[ƒuƒ‹‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' ƒsƒ{ƒbƒgƒe[ƒuƒ‹‚Ìì¬
+Public Function CreatePivotTable(sourceSheet As String, sourceRange As String, _
+                                destinationSheet As String, pivotLocation As String, _
+                                Optional rowFields As String = "", _
+                                Optional columnFields As String = "", _
+                                Optional dataFields As String = "") As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒ\[ƒXƒV[ƒg‚Ì‘¶İŠm”F
+    Dim srcWs As Worksheet
+    On Error Resume Next
+    Set srcWs = ThisWorkbook.Sheets(sourceSheet)
+    On Error GoTo ErrorHandler
+    
+    If srcWs Is Nothing Then
+        CreatePivotTable = "ƒGƒ‰[: ƒ\[ƒXƒV[ƒg '" & sourceSheet & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' o—ÍæƒV[ƒg‚Ì‘¶İŠm”F
+    Dim destWs As Worksheet
+    On Error Resume Next
+    Set destWs = ThisWorkbook.Sheets(destinationSheet)
+    On Error GoTo ErrorHandler
+    
+    If destWs Is Nothing Then
+        CreatePivotTable = "ƒGƒ‰[: o—ÍæƒV[ƒg '" & destinationSheet & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ƒsƒ{ƒbƒgƒLƒƒƒbƒVƒ…‚ğì¬
+    Dim pvtCache As PivotCache
+    Set pvtCache = ThisWorkbook.PivotCaches.Create(SourceType:=xlDatabase, SourceData:=srcWs.Range(sourceRange))
+    
+    ' ƒsƒ{ƒbƒgƒe[ƒuƒ‹‚ğì¬
+    Dim pvtTable As PivotTable
+    Set pvtTable = pvtCache.CreatePivotTable(TableDestination:=destWs.Range(pivotLocation))
+    
+    ' sƒtƒB[ƒ‹ƒh‚ğ’Ç‰Á
+    If rowFields <> "" Then
+        Dim rowFieldsArray() As String
+        rowFieldsArray = Split(rowFields, ",")
+        
+        Dim rowField As Variant
+        For Each rowField In rowFieldsArray
+            pvtTable.PivotFields(Trim(rowField)).Orientation = xlRowField
+        Next rowField
+    End If
+    
+    ' —ñƒtƒB[ƒ‹ƒh‚ğ’Ç‰Á
+    If columnFields <> "" Then
+        Dim colFieldsArray() As String
+        colFieldsArray = Split(columnFields, ",")
+        
+        Dim colField As Variant
+        For Each colField In colFieldsArray
+            pvtTable.PivotFields(Trim(colField)).Orientation = xlColumnField
+        Next colField
+    End If
+    
+    ' ƒf[ƒ^ƒtƒB[ƒ‹ƒh‚ğ’Ç‰Á
+    If dataFields <> "" Then
+        Dim dataFieldsArray() As String
+        dataFieldsArray = Split(dataFields, ",")
+        
+        Dim dataField As Variant
+        For Each dataField In dataFieldsArray
+            Dim fieldName As String
+            fieldName = Trim(dataField)
+            
+            ' WŒv•û–@‚Ìw’è‚ª‚ ‚é‚©Šm”Fi—á: "”„ã:Sum"j
+            Dim summaryFunction As XlConsolidationFunction
+            summaryFunction = xlSum  ' ƒfƒtƒHƒ‹ƒg‚ÍSum
+            
+            If InStr(fieldName, ":") > 0 Then
+                Dim parts() As String
+                parts = Split(fieldName, ":")
+                fieldName = Trim(parts(0))
+                
+                Select Case LCase(Trim(parts(1)))
+                    Case "sum", "‡Œv"
+                        summaryFunction = xlSum
+                    Case "count", "ŒÂ”"
+                        summaryFunction = xlCount
+                    Case "average", "•½‹Ï"
+                        summaryFunction = xlAverage
+                    Case "max", "Å‘å"
+                        summaryFunction = xlMax
+                    Case "min", "Å¬"
+                        summaryFunction = xlMin
+                End Select
+            End If
+            
+            pvtTable.AddDataField pvtTable.PivotFields(fieldName), fieldName & " ‚Ì " & _
+                Choose(summaryFunction, "‡Œv", "ŒÂ”", "•½‹Ï", "Å‘å", "Å¬"), summaryFunction
+        Next dataField
+    End If
+    
+    CreatePivotTable = "ƒsƒ{ƒbƒgƒe[ƒuƒ‹‚ğì¬‚µ‚Ü‚µ‚½: ƒ\[ƒX=[" & sourceSheet & "]" & sourceRange & _
+                       ", o—Íæ=[" & destinationSheet & "]" & pivotLocation
+    Exit Function
+    
+ErrorHandler:
+    CreatePivotTable = "ƒGƒ‰[: ƒsƒ{ƒbƒgƒe[ƒuƒ‹‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' ƒf[ƒ^‚Ì•À‚×‘Ö‚¦
+Public Function SortData(sheetName As String, dataRange As String, _
+                         sortField As String, Optional sortOrder As String = "ascending", _
+                         Optional hasHeader As Boolean = True) As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        SortData = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ƒ\[ƒg‡‚Ìİ’è
+    Dim orderValue As XlSortOrder
+    Select Case LCase(sortOrder)
+        Case "asc", "ascending", "¸‡"
+            orderValue = xlAscending
+        Case "desc", "descending", "~‡"
+            orderValue = xlDescending
+        Case Else
+            orderValue = xlAscending
+    End Select
+    
+    ' ƒwƒbƒ_[‚Ìİ’è
+    Dim headerValue As XlYesNoGuess
+    If hasHeader Then
+        headerValue = xlYes
+    Else
+        headerValue = xlNo
+    End If
+    
+    ' •À‚×‘Ö‚¦Às
+    ws.Range(dataRange).Sort _
+        Key1:=ws.Range(sortField), _
+        Order1:=orderValue, _
+        Header:=headerValue
+    
+    SortData = "ƒf[ƒ^‚ğ•À‚×‘Ö‚¦‚Ü‚µ‚½: [" & sheetName & "]" & dataRange & _
+               ", ƒ\[ƒgƒtƒB[ƒ‹ƒh=" & sortField & ", ‡˜=" & sortOrder
+    Exit Function
+    
+ErrorHandler:
+    SortData = "ƒGƒ‰[: ƒf[ƒ^‚Ì•À‚×‘Ö‚¦‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' ƒtƒBƒ‹ƒ^[“K—p
+Public Function ApplyFilter(sheetName As String, dataRange As String, _
+                            filterColumn As String, filterCriteria As String, _
+                            Optional operator As String = "equals") As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        ApplyFilter = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ”ÍˆÍ‚ÉƒI[ƒgƒtƒBƒ‹ƒ^[‚ª‚È‚¯‚ê‚Î“K—p
+    Dim rng As Range
+    Set rng = ws.Range(dataRange)
+    
+    If Not rng.AutoFilter Then
+        rng.AutoFilter
+    End If
+    
+    ' ƒtƒBƒ‹ƒ^[ğŒ‚Ì“Á’è
+    Dim columnIndex As Integer
+    
+    ' —ñ–¼‚ªw’è‚³‚ê‚½ê‡A—ñƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+    If IsNumeric(filterColumn) Then
+        columnIndex = CInt(filterColumn)
+    Else
+        ' —ñ–¼‚©‚ç—ñƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+        Dim firstRow As Range
+        Set firstRow = rng.Rows(1)
+        
+        Dim cell As Range
+        Dim columnFound As Boolean
+        columnFound = False
+        
+        For Each cell In firstRow.Cells
+            If cell.value = filterColumn Then
+                columnIndex = cell.Column - rng.Cells(1, 1).Column + 1
+                columnFound = True
+                Exit For
+            End If
+        Next cell
+        
+        If Not columnFound Then
+            ApplyFilter = "ƒGƒ‰[: —ñ '" & filterColumn & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+            Exit Function
+        End If
+    End If
+    
+    ' ‰‰Zqİ’è
+    Dim xlOperator As XlAutoFilterOperator
+    Select Case LCase(operator)
+        Case "equals", "equal", "eq", "="
+            xlOperator = xlFilterValues
+            ws.Range(dataRange).AutoFilter Field:=columnIndex, Criteria1:=filterCriteria
+        Case "contains", "like", "ŠÜ‚Ş"
+            xlOperator = xlFilterValues
+            ws.Range(dataRange).AutoFilter Field:=columnIndex, Criteria1:="*" & filterCriteria & "*"
+        Case "greater", "greaterthan", "gt", ">", "‚æ‚è‘å‚«‚¢"
+            xlOperator = xlFilterValues
+            ws.Range(dataRange).AutoFilter Field:=columnIndex, Criteria1:=">" & filterCriteria
+        Case "less", "lessthan", "lt", "<", "‚æ‚è¬‚³‚¢"
+            xlOperator = xlFilterValues
+            ws.Range(dataRange).AutoFilter Field:=columnIndex, Criteria1:="<" & filterCriteria
+        Case "beginswith", "startswith", "n‚Ü‚é"
+            xlOperator = xlFilterValues
+            ws.Range(dataRange).AutoFilter Field:=columnIndex, Criteria1:=filterCriteria & "*"
+        Case "endswith", "I‚í‚é"
+            xlOperator = xlFilterValues
+            ws.Range(dataRange).AutoFilter Field:=columnIndex, Criteria1:="*" & filterCriteria
+        Case Else
+            ' ƒfƒtƒHƒ‹ƒg‚ÍŠ®‘Sˆê’v
+            xlOperator = xlFilterValues
+            ws.Range(dataRange).AutoFilter Field:=columnIndex, Criteria1:=filterCriteria
+    End Select
+    
+    ApplyFilter = "ƒtƒBƒ‹ƒ^[‚ğ“K—p‚µ‚Ü‚µ‚½: [" & sheetName & "]" & dataRange & _
+                 ", —ñ=" & filterColumn & ", ğŒ=" & operator & " " & filterCriteria
+    Exit Function
+    
+ErrorHandler:
+    ApplyFilter = "ƒGƒ‰[: ƒtƒBƒ‹ƒ^[“K—p‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' ğŒ•t‚«‘®‚Ì“K—p
+Public Function ApplyConditionalFormat(sheetName As String, dataRange As String, _
+                                     formatType As String, condition As String, _
+                                     Optional formatStyle As String = "default") As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        ApplyConditionalFormat = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ğŒ•t‚«‘®‚Ìƒ^ƒCƒv‚ğİ’è
+    Dim formatRng As Range
+    Set formatRng = ws.Range(dataRange)
+    
+    ' ‘®‚ğƒNƒŠƒA
+    formatRng.FormatConditions.Delete
+    
+    ' ‘®ƒ^ƒCƒv‚ÆğŒ‚ÉŠî‚Ã‚¢‚Ä“K—p
+    Select Case LCase(formatType)
+        Case "cellvalue", "cellisvalue", "ƒZƒ‹’l"
+            ' ğŒ‚ğ‰ğÍ
+            Dim operator As XlFormatConditionOperator
+            Dim value1 As String, value2 As String
+            
+            ' ğŒ‚Æ‚»‚Ì’l‚ğ•ªŠ„i—á: "greater than,100"j
+            Dim condParts() As String
+            condParts = Split(condition, ",")
+            
+            If UBound(condParts) >= 0 Then
+                value1 = condParts(1)
+                If UBound(condParts) >= 2 Then
+                    value2 = condParts(2)
+                End If
+                
+                Select Case LCase(condParts(0))
+                    Case "greater than", "greaterthan", ">"
+                        operator = xlGreater
+                        formatRng.FormatConditions.Add Type:=xlCellValue, operator:=operator, Formula1:=value1
+                    Case "less than", "lessthan", "<"
+                        operator = xlLess
+                        formatRng.FormatConditions.Add Type:=xlCellValue, operator:=operator, Formula1:=value1
+                    Case "equal to", "equalto", "="
+                        operator = xlEqual
+                        formatRng.FormatConditions.Add Type:=xlCellValue, operator:=operator, Formula1:=value1
+                    Case "between", "—¼•û‚ÌŠÔ"
+                        operator = xlBetween
+                        formatRng.FormatConditions.Add Type:=xlCellValue, operator:=operator, Formula1:=value1, Formula2:=value2
+                    Case Else
+                        ' ƒfƒtƒHƒ‹ƒg‚ÍuŸ‚Ì’l‚É“™‚µ‚¢v
+                        operator = xlEqual
+                        formatRng.FormatConditions.Add Type:=xlCellValue, operator:=operator, Formula1:=value1
+                End Select
+            Else
+                ApplyConditionalFormat = "ƒGƒ‰[: ğŒ‚ÌŒ`®‚ª•s³‚Å‚· - " & condition
+                Exit Function
+            End If
+            
+        Case "colorscale", "ƒJƒ‰[ƒXƒP[ƒ‹"
+            ' 2F‚Ü‚½‚Í3F‚ÌƒJƒ‰[ƒXƒP[ƒ‹
+            Dim colorCount As Integer
+            colorCount = CInt(condition)
+            
+            If colorCount = 2 Then
+                formatRng.FormatConditions.AddColorScale ColorScaleType:=2
+            ElseIf colorCount = 3 Then
+                formatRng.FormatConditions.AddColorScale ColorScaleType:=3
+            Else
+                ' ƒfƒtƒHƒ‹ƒg‚Í2F
+                formatRng.FormatConditions.AddColorScale ColorScaleType:=2
+            End If
+            
+        Case "databar", "ƒf[ƒ^ƒo["
+            ' ƒf[ƒ^ƒo[‚ÌF‚ğw’èi—á: "blue"j
+            Dim barColor As XlDataBarColor
+            
+            Select Case LCase(condition)
+                Case "blue", "Â"
+                    barColor = xlDataBarColorBlue
+                Case "green", "—Î"
+                    barColor = xlDataBarColorGreen
+                Case "red", "Ô"
+                    barColor = xlDataBarColorRed
+                Case "orange", "ƒIƒŒƒ“ƒW"
+                    barColor = xlDataBarColorOrange
+                Case "lightblue", "lightblue", "…F"
+                    barColor = xlDataBarColorLightBlue
+                Case "purple", "‡"
+                    barColor = xlDataBarColorPurple
+                Case Else
+                    ' ƒfƒtƒHƒ‹ƒg‚ÍÂ
+                    barColor = xlDataBarColorBlue
+            End Select
+            
+            formatRng.FormatConditions.AddDatabar
+            formatRng.FormatConditions(1).ShowValue = True
+            
+        Case "iconset", "ƒAƒCƒRƒ“ƒZƒbƒg"
+            ' ƒAƒCƒRƒ“ƒZƒbƒg‚Ìí—Ş‚ğw’èi—á: "3arrows"j
+            Dim iconSetType As XlIconSet
+            
+            Select Case LCase(condition)
+                Case "3arrows", "3–îˆó"
+                    iconSetType = xl3Arrows
+                Case "3trafficlights", "3M†"
+                    iconSetType = xl3TrafficLights
+                Case "3signs", "3‹L†"
+                    iconSetType = xl3Signs
+                Case "3symbols", "3ƒVƒ“ƒ{ƒ‹"
+                    iconSetType = xl3Symbols
+                Case "4arrows", "4–îˆó"
+                    iconSetType = xl4Arrows
+                Case "4trafficlights", "4M†"
+                    iconSetType = xl4TrafficLights
+                Case "5arrows", "5–îˆó"
+                    iconSetType = xl5Arrows
+                Case "5ratings", "5•]‰¿"
+                    iconSetType = xl5Ratings
+                Case Else
+                    ' ƒfƒtƒHƒ‹ƒg‚Í3–îˆó
+                    iconSetType = xl3Arrows
+            End Select
+            
+            formatRng.FormatConditions.AddIconSetCondition
+            formatRng.FormatConditions(1).IconSet = ThisWorkbook.IconSets(iconSetType)
+            
+        Case "formula", "”®"
+            ' ”®‚ÉŠî‚Ã‚­ğŒ•t‚«‘®
+            formatRng.FormatConditions.Add Type:=xlExpression, Formula1:=condition
+            
+        Case Else
+            ApplyConditionalFormat = "ƒGƒ‰[: ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢‘®ƒ^ƒCƒv‚Å‚· - " & formatType
+            Exit Function
+    End Select
+    
+    ' ‘®ƒXƒ^ƒCƒ‹‚Ì“K—p
+    If formatRng.FormatConditions.Count > 0 Then
+        Select Case LCase(formatStyle)
+            Case "lightred", "”–‚¢Ô"
+                With formatRng.FormatConditions(1).Interior
+                    .Color = RGB(255, 199, 206)
+                End With
+            Case "lightgreen", "”–‚¢—Î"
+                With formatRng.FormatConditions(1).Interior
+                    .Color = RGB(198, 239, 206)
+                End With
+            Case "lightyellow", "”–‚¢‰©"
+                With formatRng.FormatConditions(1).Interior
+                    .Color = RGB(255, 235, 156)
+                End With
+            Case "bold", "‘¾š"
+                formatRng.FormatConditions(1).Font.Bold = True
+            Case "italic", "Î‘Ì"
+                formatRng.FormatConditions(1).Font.Italic = True
+            Case "custom", "ƒJƒXƒ^ƒ€"
+                ' ƒJƒXƒ^ƒ€ƒXƒ^ƒCƒ‹‚Í‚±‚±‚Å‚Í“K—p‚µ‚È‚¢
+            Case "default", "ƒfƒtƒHƒ‹ƒg"
+                ' ƒfƒtƒHƒ‹ƒgƒXƒ^ƒCƒ‹‚Í‚»‚Ì‚Ü‚Ü
+            Case Else
+                ' –³Œø‚ÈƒXƒ^ƒCƒ‹‚Ìê‡‚ÍŒx
+                Debug.Print "Œx: •s–¾‚È‘®ƒXƒ^ƒCƒ‹ - " & formatStyle
+        End Select
+    End If
+    
+    ApplyConditionalFormat = "ğŒ•t‚«‘®‚ğ“K—p‚µ‚Ü‚µ‚½: [" & sheetName & "]" & dataRange & _
+                           ", ƒ^ƒCƒv=" & formatType & ", ğŒ=" & condition
+    Exit Function
+    
+ErrorHandler:
+    ApplyConditionalFormat = "ƒGƒ‰[: ğŒ•t‚«‘®‚Ì“K—p‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+' ”®‚Ì‘}“ü
+Public Function InsertFormula(sheetName As String, cellReference As String, formula As String) As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        InsertFormula = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ”®‚Ìæ“ª‚É=‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©Šm”F‚µA‚È‚¯‚ê‚Î’Ç‰Á
+    Dim formulaText As String
+    formulaText = Trim(formula)
+    
+    If left(formulaText, 1) <> "=" Then
+        formulaText = "=" & formulaText
+    End If
+    
+    ' ”®‚ğ‘}“ü
+    ws.Range(cellReference).formula = formulaText
+    
+    ' Œ‹‰Ê‚ğæ“¾
+    Dim result As Variant
+    result = ws.Range(cellReference).value
+    
+    InsertFormula = "”®‚ğ‘}“ü‚µ‚Ü‚µ‚½: [" & sheetName & "]" & cellReference & _
+                   " ‚Éu" & formulaText & "v‚ğ‘}“üAŒ‹‰Ê=" & CStr(result)
+    Exit Function
+    
+ErrorHandler:
+    InsertFormula = "ƒGƒ‰[: ”®‚Ì‘}“ü‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.description
+End Function
+
+
+' •¡”‚ÌƒZƒ‹’l‚ğˆê“x‚Éæ“¾ (JSONŒ`®)
+Public Function GetMultipleCellValues(sheetName As String, cellRanges As String) As String
+    On Error GoTo ErrorHandler
+    
+    ' JSONƒIƒuƒWƒFƒNƒg‚ğì¬
+    Dim resultObj As Object
+    Set resultObj = CreateObject("Scripting.Dictionary")
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        GetMultipleCellValues = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' JSON‚Æ‚µ‚Ä“n‚³‚ê‚½ê‡‚Íƒp[ƒX
+    If Left(cellRanges, 1) = "[" Or Left(cellRanges, 1) = "{" Then
+        ' JSON‚Æ‚µ‚Ä‰ğÍ
+        Dim rangesCollection As Object
+        
+        If Left(cellRanges, 1) = "[" Then
+            ' ”z—ñŒ`®: ["A1", "B2", "C3"]
+            Set rangesCollection = JsonConverter.ParseJson(cellRanges)
+            
+            ' ŠeƒZƒ‹QÆ‚É‘Î‚µ‚Ä’l‚ğæ“¾
+            Dim i As Long
+            For i = 1 To rangesCollection.Count
+                Dim cellRef As String
+                cellRef = rangesCollection(i)
+                
+                On Error Resume Next
+                Dim cellValue As Variant
+                cellValue = ws.Range(cellRef).Value
+                
+                ' Œ‹‰Ê‚É’Ç‰Á
+                If Err.Number = 0 Then
+                    resultObj.Add cellRef, CStr(cellValue)
+                Else
+                    resultObj.Add cellRef, "ƒGƒ‰[: " & cellRef & " ‚Ìæ“¾‚É¸”s"
+                End If
+                On Error GoTo ErrorHandler
+            Next i
+            
+        ElseIf Left(cellRanges, 1) = "{" Then
+            ' ƒIƒuƒWƒFƒNƒgŒ`®: {"name": "A1", "value": "B2"}
+            Set rangesCollection = JsonConverter.ParseJson(cellRanges)
+            
+            ' ŠeƒL[‚É‘Î‚µ‚Ä’l‚ğæ“¾
+            Dim key As Variant
+            For Each key In rangesCollection.Keys
+                cellRef = rangesCollection(key)
+                
+                On Error Resume Next
+                cellValue = ws.Range(cellRef).Value
+                
+                ' Œ‹‰Ê‚É’Ç‰Á
+                If Err.Number = 0 Then
+                    resultObj.Add CStr(key), CStr(cellValue)
+                Else
+                    resultObj.Add CStr(key), "ƒGƒ‰[: " & cellRef & " ‚Ìæ“¾‚É¸”s"
+                End If
+                On Error GoTo ErrorHandler
+            Next key
+        End If
+    Else
+        ' ƒJƒ“ƒ}‹æØ‚è‚Ìê‡
+        Dim rangesArray() As String
+        rangesArray = Split(cellRanges, ",")
+        
+        ' ŠeƒZƒ‹QÆ‚É‘Î‚µ‚Ä’l‚ğæ“¾
+        Dim j As Long
+        For j = LBound(rangesArray) To UBound(rangesArray)
+            cellRef = Trim(rangesArray(j))
+            
+            On Error Resume Next
+            cellValue = ws.Range(cellRef).Value
+            
+            ' Œ‹‰Ê‚É’Ç‰Á
+            If Err.Number = 0 Then
+                resultObj.Add cellRef, CStr(cellValue)
+            Else
+                resultObj.Add cellRef, "ƒGƒ‰[: " & cellRef & " ‚Ìæ“¾‚É¸”s"
+            End If
+            On Error GoTo ErrorHandler
+        Next j
+    End If
+    
+    ' Œ‹‰Ê‚ğJSON•¶š—ñ‚É•ÏŠ·‚µ‚Ä•Ô‚·
+    GetMultipleCellValues = JsonConverter.ConvertToJson(resultObj)
+    Exit Function
+    
+ErrorHandler:
+    ' ƒGƒ‰[”­¶‚ÍƒGƒ‰[ƒƒbƒZ[ƒW‚ğ•Ô‚·
+    GetMultipleCellValues = "{""error"": """ & Err.Description & """}"
+End Function
+
+' •¡”‚ÌƒZƒ‹’l‚ğˆê“x‚Éİ’è (JSONŒ`®)
+Public Function SetMultipleCellValues(sheetName As String, valuesJson As String) As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        SetMultipleCellValues = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' Œ‹‰ÊƒIƒuƒWƒFƒNƒg‚ğì¬
+    Dim resultObj As Object
+    Set resultObj = CreateObject("Scripting.Dictionary")
+    resultObj.Add "success", True
+    resultObj.Add "updated", CreateObject("Scripting.Dictionary")
+    resultObj.Add "errors", CreateObject("Scripting.Dictionary")
+    
+    ' JSON‚Æ‚µ‚Ä‰ğÍ
+    Dim valuesObj As Object
+    Set valuesObj = JsonConverter.ParseJson(valuesJson)
+    
+    ' ŠeƒL[‚É‘Î‚µ‚Ä’l‚ğİ’è
+    Dim key As Variant
+    Dim successCount As Long
+    Dim errorCount As Long
+    successCount = 0
+    errorCount = 0
+    
+    For Each key In valuesObj.Keys
+        Dim cellRef As String
+        Dim newValue As String
+        
+        cellRef = CStr(key)
+        newValue = CStr(valuesObj(key))
+        
+        On Error Resume Next
+        ws.Range(cellRef).Value = newValue
+        
+        ' Œ‹‰Ê‚ğ‹L˜^
+        If Err.Number = 0 Then
+            ' ¬Œ÷
+            successCount = successCount + 1
+            resultObj("updated").Add cellRef, newValue
+        Else
+            ' ¸”s
+            errorCount = errorCount + 1
+            resultObj("errors").Add cellRef, "ƒGƒ‰[: " & Err.Description
+        End If
+        On Error GoTo ErrorHandler
+    Next key
+    
+    ' “Œvî•ñ‚ğ’Ç‰Á
+    resultObj.Add "summary", "‡Œv: " & (successCount + errorCount) & " ƒZƒ‹, ¬Œ÷: " & successCount & ", ¸”s: " & errorCount
+    
+    ' Œ‹‰Ê‚ğJSON•¶š—ñ‚É•ÏŠ·‚µ‚Ä•Ô‚·
+    SetMultipleCellValues = JsonConverter.ConvertToJson(resultObj)
+    Exit Function
+    
+ErrorHandler:
+    ' ƒGƒ‰[”­¶‚ÍƒGƒ‰[ƒƒbƒZ[ƒW‚ğ•Ô‚·
+    SetMultipleCellValues = "{""success"": false, ""error"": """ & Err.Description & """}"
+End Function
+
+' ƒZƒ‹‚Ì‘®İ’èiƒtƒHƒ“ƒgAFA”z’u‚È‚Çj
+Public Function FormatCells(sheetName As String, rangeAddress As String, Optional formatSettings As String = "") As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        FormatCells = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ‘ÎÛ”ÍˆÍ
+    Dim rng As Range
+    Set rng = ws.Range(rangeAddress)
+    
+    ' ‘®İ’è‚ğJSON‚Æ‚µ‚Ä‰ğÍ
+    Dim formatObj As Object
+    If formatSettings <> "" Then
+        Set formatObj = JsonConverter.ParseJson(formatSettings)
+    Else
+        Set formatObj = CreateObject("Scripting.Dictionary")
+    End If
+    
+    ' ƒtƒHƒ“ƒg‚Ìİ’è
+    If formatObj.Exists("font") Then
+        If formatObj("font").Exists("name") Then rng.Font.Name = formatObj("font")("name")
+        If formatObj("font").Exists("size") Then rng.Font.Size = formatObj("font")("size")
+        If formatObj("font").Exists("bold") Then rng.Font.Bold = formatObj("font")("bold")
+        If formatObj("font").Exists("italic") Then rng.Font.Italic = formatObj("font")("italic")
+        If formatObj("font").Exists("underline") Then
+            Select Case LCase(formatObj("font")("underline"))
+                Case "single", "true"
+                    rng.Font.Underline = xlUnderlineStyleSingle
+                Case "double"
+                    rng.Font.Underline = xlUnderlineStyleDouble
+                Case "none", "false"
+                    rng.Font.Underline = xlUnderlineStyleNone
+            End Select
+        End If
+        If formatObj("font").Exists("color") Then
+            Dim fontColor As String
+            fontColor = formatObj("font")("color")
+            ' F–¼‚Ü‚½‚ÍRGB’l‚Åw’è
+            rng.Font.Color = ConvertColorValue(fontColor)
+        End If
+    End If
+    
+    ' ”wŒiF
+    If formatObj.Exists("fill") Then
+        If formatObj("fill").Exists("color") Then
+            Dim fillColor As String
+            fillColor = formatObj("fill")("color")
+            rng.Interior.Color = ConvertColorValue(fillColor)
+        End If
+        If formatObj("fill").Exists("pattern") Then
+            Select Case LCase(formatObj("fill")("pattern"))
+                Case "solid"
+                    rng.Interior.Pattern = xlSolid
+                Case "none", "transparent"
+                    rng.Interior.Pattern = xlNone
+                Case "lightgray", "lightgrey"
+                    rng.Interior.Pattern = xlLightDown
+                Case "gray", "grey"
+                    rng.Interior.Pattern = xlGray16
+                Case "darkgray", "darkgrey"
+                    rng.Interior.Pattern = xlGray50
+                Case "lightvertical"
+                    rng.Interior.Pattern = xlLightVertical
+                Case "lighthorizontal"
+                    rng.Interior.Pattern = xlLightHorizontal
+            End Select
+        End If
+    End If
+    
+    ' ƒZƒ‹‚Ì”z’u
+    If formatObj.Exists("alignment") Then
+        ' …•½•ûŒü‚Ì”z’u
+        If formatObj("alignment").Exists("horizontal") Then
+            Select Case LCase(formatObj("alignment")("horizontal"))
+                Case "left"
+                    rng.HorizontalAlignment = xlLeft
+                Case "center"
+                    rng.HorizontalAlignment = xlCenter
+                Case "right"
+                    rng.HorizontalAlignment = xlRight
+                Case "justify"
+                    rng.HorizontalAlignment = xlJustify
+                Case "distributed"
+                    rng.HorizontalAlignment = xlDistributed
+            End Select
+        End If
+        
+        ' ‚’¼•ûŒü‚Ì”z’u
+        If formatObj("alignment").Exists("vertical") Then
+            Select Case LCase(formatObj("alignment")("vertical"))
+                Case "top"
+                    rng.VerticalAlignment = xlTop
+                Case "center", "middle"
+                    rng.VerticalAlignment = xlCenter
+                Case "bottom"
+                    rng.VerticalAlignment = xlBottom
+                Case "justify"
+                    rng.VerticalAlignment = xlJustify
+                Case "distributed"
+                    rng.VerticalAlignment = xlDistributed
+            End Select
+        End If
+        
+        ' •¶š‚ÌÜ‚è•Ô‚µ
+        If formatObj("alignment").Exists("wrapText") Then rng.WrapText = formatObj("alignment")("wrapText")
+        
+        ' k¬‚µ‚Ä•\¦
+        If formatObj("alignment").Exists("shrinkToFit") Then rng.ShrinkToFit = formatObj("alignment")("shrinkToFit")
+        
+        ' ƒZƒ‹‚ÌŒ‹‡
+        If formatObj("alignment").Exists("merge") Then
+            If formatObj("alignment")("merge") = True Then
+                rng.Merge
+            ElseIf formatObj("alignment")("merge") = False Then
+                rng.UnMerge
+            End If
+        End If
+        
+        ' •¶š‚Ì‰ñ“]
+        If formatObj("alignment").Exists("rotation") Then rng.Orientation = formatObj("alignment")("rotation")
+    End If
+    
+    ' ƒZƒ‹•‚Æs‚Ì‚‚³
+    If formatObj.Exists("size") Then
+        If formatObj("size").Exists("columnWidth") Then
+            If IsNumeric(formatObj("size")("columnWidth")) Then
+                rng.ColumnWidth = formatObj("size")("columnWidth")
+            ElseIf formatObj("size")("columnWidth") = "autofit" Then
+                rng.Columns.AutoFit
+            End If
+        End If
+        
+        If formatObj("size").Exists("rowHeight") Then
+            If IsNumeric(formatObj("size")("rowHeight")) Then
+                rng.RowHeight = formatObj("size")("rowHeight")
+            ElseIf formatObj("size")("rowHeight") = "autofit" Then
+                rng.Rows.AutoFit
+            End If
+        End If
+    End If
+    
+    FormatCells = "ƒZƒ‹ [" & sheetName & "]" & rangeAddress & " ‚Ì‘®‚ğİ’è‚µ‚Ü‚µ‚½"
+    Exit Function
+    
+ErrorHandler:
+    FormatCells = "ƒGƒ‰[: ƒZƒ‹‘®‚Ìİ’è‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.Description
+End Function
+
+' ƒZƒ‹‚ÌŒrüİ’è
+Public Function FormatBorders(sheetName As String, rangeAddress As String, borderSettings As String) As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        FormatBorders = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ‘ÎÛ”ÍˆÍ
+    Dim rng As Range
+    Set rng = ws.Range(rangeAddress)
+    
+    ' Œrüİ’è‚ğJSON‚Æ‚µ‚Ä‰ğÍ
+    Dim borderObj As Object
+    Set borderObj = JsonConverter.ParseJson(borderSettings)
+    
+    ' ‚·‚×‚Ä‚ÌŒrü‚ğƒNƒŠƒAiƒIƒvƒVƒ‡ƒ“j
+    If borderObj.Exists("clearAll") And borderObj("clearAll") = True Then
+        rng.Borders.LineStyle = xlNone
+    End If
+    
+    ' Œrü‚Ì‘¾‚³‚ğİ’è
+    Dim lineWeight As XlBorderWeight
+    lineWeight = xlThin ' ƒfƒtƒHƒ‹ƒg’l
+    
+    If borderObj.Exists("weight") Then
+        Select Case LCase(borderObj("weight"))
+            Case "thin", "×‚¢"
+                lineWeight = xlThin
+            Case "medium", "•’Ê"
+                lineWeight = xlMedium
+            Case "thick", "‘¾‚¢"
+                lineWeight = xlThick
+            Case "hairline", "‹É×"
+                lineWeight = xlHairline
+        End Select
+    End If
+    
+    ' typeƒpƒ‰ƒ[ƒ^‚ª‚ ‚éê‡‚Íweight‚Æ‚µ‚Äˆµ‚¤
+    If borderObj.Exists("type") Then
+        Select Case LCase(borderObj("type"))
+            Case "thin", "×‚¢"
+                lineWeight = xlThin
+            Case "medium", "•’Ê"
+                lineWeight = xlMedium
+            Case "thick", "‘¾‚¢"
+                lineWeight = xlThick
+            Case "hairline", "‹É×"
+                lineWeight = xlHairline
+        End Select
+    End If
+    
+    ' Œrü‚ÌF‚ğİ’è
+    Dim borderColor As Long
+    borderColor = RGB(0, 0, 0) ' ƒfƒtƒHƒ‹ƒg•
+    
+    If borderObj.Exists("color") Then
+        borderColor = ConvertColorValue(borderObj("color"))
+    End If
+    
+    ' Œrü‚Ìí—Ş‚ğİ’è
+    Dim lineStyle As XlLineStyle
+    lineStyle = xlContinuous ' ƒfƒtƒHƒ‹ƒgÀü
+    
+    If borderObj.Exists("style") Then
+        Select Case LCase(borderObj("style"))
+            Case "continuous", "solid", "Àü"
+                lineStyle = xlContinuous
+            Case "dash", "dashed", "”jü"
+                lineStyle = xlDash
+            Case "dot", "dotted", "“_ü"
+                lineStyle = xlDot
+            Case "dashdot", "”jüE“_ü"
+                lineStyle = xlDashDot
+            Case "dashdotdot", "ˆê“_½ü"
+                lineStyle = xlDashDotDot
+            Case "slantdashdot", "Î‚ß”jü"
+                lineStyle = xlSlantDashDot
+            Case "double", "“ñdü"
+                lineStyle = xlDouble
+            Case "none", "‚È‚µ"
+                lineStyle = xlNone
+        End Select
+    End If
+    
+    ' Œrü‚ÌˆÊ’u‚ğİ’è
+    If borderObj.Exists("position") Then
+        Select Case LCase(borderObj("position"))
+            Case "all", "‚·‚×‚Ä"
+                With rng.Borders
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+            Case "outline", "ŠO˜g"
+                With rng.BorderAround
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+            Case "inside", "“à‘¤"
+                With rng.Borders(xlInsideHorizontal)
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+                With rng.Borders(xlInsideVertical)
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+            Case "top", "ã"
+                With rng.Borders(xlEdgeTop)
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+            Case "bottom", "‰º"
+                With rng.Borders(xlEdgeBottom)
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+            Case "left", "¶"
+                With rng.Borders(xlEdgeLeft)
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+            Case "right", "‰E"
+                With rng.Borders(xlEdgeRight)
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+            Case "horizontalinside", "…•½“à‘¤"
+                With rng.Borders(xlInsideHorizontal)
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+            Case "verticalinside", "‚’¼“à‘¤"
+                With rng.Borders(xlInsideVertical)
+                    .LineStyle = lineStyle
+                    .Color = borderColor
+                    .Weight = lineWeight
+                End With
+        End Select
+    Else
+        ' ƒfƒtƒHƒ‹ƒg‚Í‘S‚Ä‚ÌŒrü
+        With rng.Borders
+            .LineStyle = lineStyle
+            .Color = borderColor
+            .Weight = lineWeight
+        End With
+    End If
+    
+    FormatBorders = "ƒZƒ‹ [" & sheetName & "]" & rangeAddress & " ‚ÌŒrü‚ğİ’è‚µ‚Ü‚µ‚½"
+    Exit Function
+    
+ErrorHandler:
+    FormatBorders = "ƒGƒ‰[: Œrü‚Ìİ’è‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.Description
+End Function
+
+' ”’l‘®‚Ìİ’è
+Public Function FormatNumberStyle(sheetName As String, rangeAddress As String, formatCode As String) As String
+    On Error GoTo ErrorHandler
+    
+    ' ƒV[ƒg‚Ì‘¶İŠm”F
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    On Error GoTo ErrorHandler
+    
+    If ws Is Nothing Then
+        FormatNumberStyle = "ƒGƒ‰[: ƒV[ƒg '" & sheetName & "' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        Exit Function
+    End If
+    
+    ' ‘ÎÛ”ÍˆÍ
+    Dim rng As Range
+    Set rng = ws.Range(rangeAddress)
+    
+    ' ‘®ƒR[ƒh‚ª’¼Úw’è‚³‚ê‚Ä‚¢‚é‚©Aˆê”Ê“I‚È–¼‘O‚Åw’è‚³‚ê‚Ä‚¢‚é‚©‚ğƒ`ƒFƒbƒN
+    Dim actualFormatCode As String
+    
+    Select Case LCase(formatCode)
+        Case "general", "•W€"
+            actualFormatCode = "General"
+        Case "number", "”’l"
+            actualFormatCode = "0.00"
+        Case "currency", "’Ê‰İ"
+            actualFormatCode = "\#,##0.00"
+        Case "accounting", "‰ïŒv"
+            actualFormatCode = "_\* #,##0.00_;_\* -#,##0.00_;_\* ""-""??_;_@_"
+        Case "date", "“ú•t"
+            actualFormatCode = "yyyy/mm/dd"
+        Case "time", ""
+            actualFormatCode = "h:mm:ss"
+        Case "datetime", "“ú•t"
+            actualFormatCode = "yyyy/mm/dd h:mm:ss"
+        Case "percentage", "ƒp[ƒZƒ“ƒg"
+            actualFormatCode = "0.00%"
+        Case "fraction", "•ª”"
+            actualFormatCode = "# ?/?"
+        Case "scientific", "w”"
+            actualFormatCode = "0.00E+00"
+        Case "text", "•¶š—ñ"
+            actualFormatCode = "@"
+        Case "comma", "ƒJƒ“ƒ}"
+            actualFormatCode = "#,##0.00"
+        Case "integer", "®”"
+            actualFormatCode = "0"
+        Case Else
+            ' ’¼Ú‘®ƒR[ƒh‚Æ‚µ‚Äg—p
+            actualFormatCode = formatCode
+    End Select
+    
+    ' ‘®‚ğ“K—p
+    rng.NumberFormat = actualFormatCode
+    
+    FormatNumberStyle = "ƒZƒ‹ [" & sheetName & "]" & rangeAddress & " ‚Ì”’l‘®‚ğ '" & actualFormatCode & "' ‚Éİ’è‚µ‚Ü‚µ‚½"
+    Exit Function
+    
+ErrorHandler:
+    FormatNumberStyle = "ƒGƒ‰[: ”’l‘®‚Ìİ’è‚É¸”s‚µ‚Ü‚µ‚½ - " & Err.Description
+End Function
+
+' F•¶š—ñ‚ğRGB’l‚É•ÏŠ·‚·‚éƒwƒ‹ƒp[ŠÖ”
+Private Function ConvertColorValue(colorValue As String) As Long
+    ' RGB’l‚ª’¼Úw’è‚³‚ê‚Ä‚¢‚éê‡i—á: "RGB(255,0,0)"j
+    If Left(LCase(colorValue), 4) = "rgb(" Then
+        Dim rgbParts As Variant
+        rgbParts = Split(Mid(colorValue, 5, Len(colorValue) - 5), ",")
+        
+        If UBound(rgbParts) >= 2 Then
+            Dim r As Integer, g As Integer, b As Integer
+            r = CInt(Trim(rgbParts(0)))
+            g = CInt(Trim(rgbParts(1)))
+            b = CInt(Trim(rgbParts(2)))
+            
+            ConvertColorValue = RGB(r, g, b)
+            Exit Function
+        End If
+    End If
+    
+    ' F–¼‚Åw’è‚³‚ê‚Ä‚¢‚éê‡
+    Select Case LCase(colorValue)
+        Case "black", "•"
+            ConvertColorValue = RGB(0, 0, 0)
+        Case "white", "”’"
+            ConvertColorValue = RGB(255, 255, 255)
+        Case "red", "Ô"
+            ConvertColorValue = RGB(255, 0, 0)
+        Case "green", "—Î"
+            ConvertColorValue = RGB(0, 128, 0)
+        Case "blue", "Â"
+            ConvertColorValue = RGB(0, 0, 255)
+        Case "yellow", "‰©"
+            ConvertColorValue = RGB(255, 255, 0)
+        Case "magenta", "‡"
+            ConvertColorValue = RGB(255, 0, 255)
+        Case "cyan", "ƒVƒAƒ“"
+            ConvertColorValue = RGB(0, 255, 255)
+        Case "gray", "grey", "ƒOƒŒ["
+            ConvertColorValue = RGB(128, 128, 128)
+        Case "lightgray", "lightgrey", "”–‚¢ƒOƒŒ["
+            ConvertColorValue = RGB(192, 192, 192)
+        Case "darkgray", "darkgrey", "”Z‚¢ƒOƒŒ["
+            ConvertColorValue = RGB(64, 64, 64)
+        Case "orange", "ƒIƒŒƒ“ƒW"
+            ConvertColorValue = RGB(255, 165, 0)
+        Case "pink", "ƒsƒ“ƒN"
+            ConvertColorValue = RGB(255, 192, 203)
+        Case "lightblue", "”–‚¢Â"
+            ConvertColorValue = RGB(173, 216, 230)
+        Case "lightgreen", "”–‚¢—Î"
+            ConvertColorValue = RGB(144, 238, 144)
+        Case "lightyellow", "”–‚¢‰©"
+            ConvertColorValue = RGB(255, 255, 224)
+        Case "brown", "’ƒF"
+            ConvertColorValue = RGB(165, 42, 42)
+        Case "purple", "‡"
+            ConvertColorValue = RGB(128, 0, 128)
+        Case "navy", "®"
+            ConvertColorValue = RGB(0, 0, 128)
+        Case "teal", "ƒeƒB[ƒ‹"
+            ConvertColorValue = RGB(0, 128, 128)
+        Case "maroon", "ŒIF"
+            ConvertColorValue = RGB(128, 0, 0)
+        Case "olive", "ƒIƒŠ[ƒu"
+            ConvertColorValue = RGB(128, 128, 0)
+        Case Else
+            ' ƒfƒtƒHƒ‹ƒg‚Í•
+            ConvertColorValue = RGB(0, 0, 0)
+    End Select
+End Function
