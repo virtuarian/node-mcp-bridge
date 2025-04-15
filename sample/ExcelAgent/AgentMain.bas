@@ -322,9 +322,9 @@ Private Sub ParseReActResponse(apiResponse As String, ByRef responseType As Stri
     End If
     
     ' より包括的なエスケープ処理
-    fullText = Replace(fullText, "\n", vbCrLf)
-    fullText = Replace(fullText, "\r", vbCr)
-    fullText = Replace(fullText, "\t", vbTab)
+'    fullText = Replace(fullText, "\n", vbCrLf)
+'    fullText = Replace(fullText, "\r", vbCr)
+'    fullText = Replace(fullText, "\t", vbTab)
     
     ' ReActフォーマットのパターンを検索
     Dim reactRegex As Object
@@ -461,7 +461,7 @@ Private Sub ExtractToolCall(actionText As String, ByRef toolName As String, ByRe
     ' パターン: ツール名 { "param": "value" }
     Dim regex As Object
     Set regex = CreateObject("VBScript.RegExp")
-    regex.Pattern = "([a-zA-Z0-9_]+)\s*(\{[\s\S]*\})"
+    regex.Pattern = "([a-zA-Z0-9_-]+)\s*(\{[\s\S]*\})"
     
     Dim matches As Object
     Set matches = regex.Execute(actionText)
@@ -720,7 +720,8 @@ End Sub
 ' 会話履歴を含むプロンプトを生成
 Private Function GetPromptWithHistory() As String
     Dim prompt As String
-    prompt = "あなたは様々なツールが使えるReactタイプのAIアシスタントです。ユーザーの指示に基づいてツールを使用してタスクを実行します。" & vbCrLf & vbCrLf
+    prompt = "あなたは様々なツールが使えるReactタイプのAIアシスタントです。"
+    prompt = prompt & "ユーザーの指示に従い、必要なツールを使用して目的を達成してください。" & vbCrLf & vbCrLf
     
     ' ツールの説明を追加
 '    prompt = prompt & "利用可能なツール:" & vbCrLf
@@ -741,7 +742,6 @@ Private Function GetPromptWithHistory() As String
 '        prompt = prompt & vbCrLf
 '    Next i
     
-    prompt = prompt & "ユーザーの指示に従い、必要なツールを使用して目的を達成してください。" & vbCrLf & vbCrLf
     
     ' 会話履歴を追加
     prompt = prompt & "これまでの会話:" & vbCrLf
@@ -1069,4 +1069,5 @@ Private Function ShortenContent(content As String, maxLength As Integer) As Stri
         ShortenContent = left(content, maxLength - 3) & "..."
     End If
 End Function
+
 

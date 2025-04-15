@@ -398,6 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // サーバー設定オブジェクトの作成
         const serverConfig = {
+            name, // 新しいサーバー名を追加
             command,
             args,
             env,

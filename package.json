@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && npm run copy-static",
-    "copy-static": "copyfiles -u 1 \"src/admin/**/*.{html,css,js}\" dist/",
+    "copy-static": "cpy \"src/admin/**/*.{html,css,js}\" dist/admin/",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "lint": "eslint . --ext .ts",
@@ -17,6 +17,8 @@
     "chokidar": "^3.5.3",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
+    "cpy-cli": "^5.0.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-rate-limit": "^6.9.0",

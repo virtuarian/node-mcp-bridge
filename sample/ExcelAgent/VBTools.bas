@@ -28,12 +28,19 @@ Public Function GetProcedureInfo()
         & "- SetMultipleCellValues: 複数のセル値を一度に設定します" & vbCrLf _
         & "  使用例: excel_function { ""functionName"": ""SetMultipleCellValues"", ""params"": [""Sheet1"", ""{""""A1"":""値1"",""B2"":""値2""""}""] }" & vbCrLf
 
-    info = info & "- FormatCells: セルの書式を設定します" & vbCrLf _
-        & "  使用例: excel_function { ""functionName"": ""FormatCells"", ""params"": [""Sheet1"", ""A1:B10"", ""{""font"":{""name"":""Arial"",...}}""] }" & vbCrLf _
+    info = info & vbCrLf _
         & "- FormatBorders: セルの罫線を設定します" & vbCrLf _
         & "  使用例: excel_function { ""functionName"": ""FormatBorders"", ""params"": [""Sheet1"", ""A1:D10"", ""{""position"":""outline"",...}""] }" & vbCrLf _
         & "- FormatNumberStyle: 数値書式を設定します" & vbCrLf _
         & "  使用例: excel_function { ""functionName"": ""FormatNumberStyle"", ""params"": [""Sheet1"", ""A1:A10"", ""currency""] }" & vbCrLf
+
+    ' GetProcedureInfoの拡張部分    
+    info = info & "- FormatCells: セルの書式を設定します（詳細設定可能）" & vbCrLf _
+        & "  ? フォント書式: excel_function { ""functionName"": ""FormatCells"", ""params"": [""Sheet1"", ""A1:B10"", ""{""font"":{""name"":""Arial"",""size"":12,""bold"":true}}""] }" & vbCrLf _
+        & "  ? セル結合: excel_function { ""functionName"": ""FormatCells"", ""params"": [""Sheet1"", ""A1:B5"", ""{""alignment"":{""merge"":true}}""] }" & vbCrLf _
+        & "  ? 文字折返し: excel_function { ""functionName"": ""FormatCells"", ""params"": [""Sheet1"", ""A1:B5"", ""{""alignment"":{""wrapText"":true}}""] }" & vbCrLf _
+        & "  ? 列幅設定: excel_function { ""functionName"": ""FormatCells"", ""params"": [""Sheet1"", ""A:B"", ""{""size"":{""columnWidth"":15}}""] }" & vbCrLf _
+        & "  ? 自動調整: excel_function { ""functionName"": ""FormatCells"", ""params"": [""Sheet1"", ""A:B"", ""{""size"":{""columnWidth"":""autofit""}}""] }" & vbCrLf
 
     GetProcedureInfo = info
 
@@ -1114,7 +1121,7 @@ ErrorHandler:
     SetMultipleCellValues = "{""success"": false, ""error"": """ & Err.Description & """}"
 End Function
 
-' セルの書式設定（フォント、色、配置など）
+' セルの書式設定（フォント、色、配置、セル結合、文字の折り返し、列幅など）
 Public Function FormatCells(sheetName As String, rangeAddress As String, Optional formatSettings As String = "") As String
     On Error GoTo ErrorHandler
     
@@ -1227,10 +1234,14 @@ Public Function FormatCells(sheetName As String, rangeAddress As String, Optiona
         End If
         
         ' 文字の折り返し
-        If formatObj("alignment").Exists("wrapText") Then rng.WrapText = formatObj("alignment")("wrapText")
+        If formatObj("alignment").Exists("wrapText") Then
+            rng.WrapText = formatObj("alignment")("wrapText")
+        End If
         
         ' 縮小して表示
-        If formatObj("alignment").Exists("shrinkToFit") Then rng.ShrinkToFit = formatObj("alignment")("shrinkToFit")
+        If formatObj("alignment").Exists("shrinkToFit") Then
+            rng.ShrinkToFit = formatObj("alignment")("shrinkToFit") 
+        End If
         
         ' セルの結合
         If formatObj("alignment").Exists("merge") Then
@@ -1242,7 +1253,14 @@ Public Function FormatCells(sheetName As String, rangeAddress As String, Optiona
         End If
         
         ' 文字の回転
-        If formatObj("alignment").Exists("rotation") Then rng.Orientation = formatObj("alignment")("rotation")
+        If formatObj("alignment").Exists("rotation") Then
+            rng.Orientation = formatObj("alignment")("rotation")
+        End If
+        
+        ' インデント
+        If formatObj("alignment").Exists("indent") Then
+            rng.IndentLevel = formatObj("alignment")("indent")
+        End If
     End If
     
     ' セル幅と行の高さ

@@ -500,8 +500,8 @@ export class MCPServerManager {
           required: []
         };
 
-        const functionName = `${tool.serverName}_${tool.name}`
-          .replace(/[^a-zA-Z0-9_]/g, '_')
+        const functionName = `${tool.serverName}__${tool.name}`
+          .replace(/[^a-zA-Z0-9_.-]/g, '_')
           .toLowerCase();
 
         const description = tool.description ||
@@ -548,11 +548,10 @@ export class MCPServerManager {
 
     try {
       // 関数名からサーバー名とツール名を抽出
-      const nameParts = functionCall.name.split('_');
-      // 最初の部分をサーバー名、残りをツール名として扱う（アンダースコアを含む場合があるため）
+      const nameParts = functionCall.name.split('__');
       const serverName = nameParts[0];
-      const toolName = nameParts.slice(1).join('_');
-
+      const toolName = nameParts.length > 1 ? nameParts[1] : functionCall.name;
+  
       // 引数を解析
       let toolArguments: Record<string, any> = {};
       try {
@@ -581,7 +580,7 @@ export class MCPServerManager {
  * @returns Gemini Function Calling形式のツール定義配列
  */
   async fetchGeminiFunctionCallingTools(serverName?: string): Promise<Array<{
-    function_declarations:[{
+    function_declarations: [{
       name: string;
       description: string;
       parameters: {
@@ -618,9 +617,9 @@ export class MCPServerManager {
           required: []
         };
 
-        // 名前の作成（サーバー名とツール名を組み合わせる）
-        const functionName = `${tool.serverName}_${tool.name}`
-          .replace(/[^a-zA-Z0-9_]/g, '_')
+        // 名前の作成（サーバー名とツール名を組み合わせる）- Gemini用
+        const functionName = `${tool.serverName}__${tool.name}`
+          .replace(/[^a-zA-Z0-9_.-]/g, '_')
           .toLowerCase();
 
         // 説明がない場合はデフォルトの説明を提供
@@ -671,6 +670,23 @@ export class MCPServerManager {
       // プロパティをコピー
       result[key] = { ...prop };
 
+      // Geminiでサポートされていない属性を削除
+      const unsupportedAttributes = [
+        'additionalProperties',
+        'default',
+        'examples',
+        'const',
+        'multipleOf',
+        'exclusiveMinimum',
+        'exclusiveMaximum'
+      ];
+
+      for (const attr of unsupportedAttributes) {
+        if (attr in result[key]) {
+          delete result[key][attr];
+        }
+      }
+
       // 型の変換（小文字から大文字へ）
       if (prop.type) {
         // Geminiの型は大文字なので変換
@@ -704,6 +720,13 @@ export class MCPServerManager {
             'object': 'OBJECT'
           };
           result[key].items = { ...prop.items, type: typeMap[itemsType] || prop.items.type.toUpperCase() };
+
+          // items内の非対応プロパティも削除
+          for (const attr of unsupportedAttributes) {
+            if (attr in result[key].items) {
+              delete result[key].items[attr];
+            }
+          }
         }
 
         // itemsがobjectでpropertiesを持つ場合、再帰的に処理
@@ -730,10 +753,10 @@ export class MCPServerManager {
 
     try {
       // 関数名からサーバー名とツール名を抽出
-      const nameParts = functionCall.name.split('_');
-      // 最初の部分をサーバー名、残りをツール名として扱う
+      // 二重アンダースコア(__）を区切りとして使用
+      const nameParts = functionCall.name.split('__');
       const serverName = nameParts[0];
-      const toolName = nameParts.slice(1).join('_');
+      const toolName = nameParts.length > 1 ? nameParts[1] : functionCall.name;
 
       // 引数を取得（Geminiの場合はすでにオブジェクト形式）
       const toolArguments = functionCall.arguments || {};

@@ -147,9 +147,9 @@ async function main() {
         const { provider, serverName } = req.query;
 
 
-        if (!provider) {
-          return res.status(400).json({ error: 'Provider is required' });
-        }
+        // if (!provider) {
+        //   return res.status(400).json({ error: 'Provider is required' });
+        // }
 
         let functionTools;
         if (provider === 'gemini') {
